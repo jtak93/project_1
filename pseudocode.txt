@@ -1,0 +1,45 @@
+board is 8x8 with
+
+initialize board array with these objects
+object = {
+  'player' = 0, 1, 2,
+  'king' = true/false,
+  'validMove'= true/false,
+  'x' = 1,
+  'y' = 0,
+  'jumped' = true/false
+}
+
+player piece counters (subtract if killed)
+playerTurn = "one", "two"
+
+resetGame function
+  reinitialize the board array
+
+
+
+function checkValidMoves //Gonna be the bulk of game logic
+  check if piece has valid move based on player turn
+  jump priority
+    return true
+
+function checkWin
+  check player turn
+    check for valid moves
+      no moves = other player wins
+  check if player has pieces
+    no pieces = other player wins
+
+check for kills/jump
+  check jumped
+
+function makeMove
+  if valid move
+  change board objects
+  increment turnCounter
+  if jump that object can move again
+
+
+
+render function
+  create board objects in HTML
