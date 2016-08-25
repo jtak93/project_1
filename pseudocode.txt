@@ -20,8 +20,10 @@ resetGame function
 
 function checkValidMoves //Gonna be the bulk of game logic
   check if piece has valid move based on player turn
-  jump priority
-    return true
+  check jump priority
+  check if king
+  check position
+
 
 function checkWin
   check player turn
@@ -33,7 +35,7 @@ function checkWin
 check for kills/jump
   check jumped
 
-function makeMove
+function makeMove (maybe make method for object)
   if valid move
   change board objects
   increment turnCounter
