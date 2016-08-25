@@ -11,7 +11,10 @@ class CheckerPiece {
     this.jumped = false;
   }
 }
-
+// stores number of player pieces;
+// decrement when piece is killed;
+var numPieces1 = 12;
+var numPieces2 = 12;
 var player1Pieces = []; // Stores all player 1 object
 var player2Pieces = []; // Stores player 2 objects
 
@@ -51,6 +54,7 @@ for (i = 0; i < 4; i++) {
   var newPiece = new CheckerPiece("one", 1 + (2 * i), 5, false);
   player2Pieces.push(newPiece);
 };
+
 
 
 console.log(player1Pieces);
