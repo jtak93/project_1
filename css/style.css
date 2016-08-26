@@ -1,0 +1,32 @@
+.text {
+  display: inline-flex;
+  flex-direction: column;
+  width: 30%;
+}
+.board {
+  display: inline-flex;
+  flex-direction: column;
+  border: 3px solid black;
+}
+
+.board .row {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.grid1 {
+  display: inline-flex;
+  background-color: white;
+  width:8vw;
+  height: 7vw;
+  border: 1px solid black;
+}
+
+.grid2 {
+  display: inline-flex;
+  background-color: red;
+  width:8vw;
+  height: 7vw;
+  border: 1px solid black;
+}
+
