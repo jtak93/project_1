@@ -21,6 +21,7 @@ var board =
  2, 2, 2, 2,
  2, 2, 2, 2,
  2, 2, 2, 2]
+ ;
 
 // stores number of player pieces;
 // decrement when piece is killed;
@@ -41,17 +42,32 @@ for (i = 20; i < 32; i++) {
   player2Pieces.push(newPiece);
 }
 
+var $grid = $('.grid2');
 // Iterate through board array and append correct text or image to correct grid
 function render() {
   for ( i = 0; i < board.length; i++) {
     if (board[i] === 0) {
-    //   make space blank;
+      $grid.eq(i).html('');
   }else if (board[i] === 1){
-    // put in player 1 piece;
+      $grid.eq(i).html('X');
   }else if (board[i] === 2){
-    // put player 2 piece;
+      $grid.eq(i).html('O');
   }
   }
+}
+
+// reset board state and render
+function resetGame() {
+  board =
+  [1, 1, 1, 1,
+   1, 1, 1, 1,
+   1, 1, 1, 1,
+   0, 0, 0, 0,
+   0, 0, 0, 0,
+   2, 2, 2, 2,
+   2, 2, 2, 2,
+   2, 2, 2, 2];
+   render();
 }
 
 

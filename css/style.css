@@ -23,10 +23,11 @@
 }
 
 .grid2 {
-  display: inline-flex;
   background-color: red;
   width:8vw;
   height: 7vw;
   border: 1px solid black;
+  text-align: center;
+  font-size: 60px;
 }
 
