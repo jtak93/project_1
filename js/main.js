@@ -70,6 +70,11 @@ function resetGame() {
    render();
 }
 
+// assign jquery pointer to reset button to variable
+// attach event listener to reset game button with resetGame function
+$resetBtn = $('#resetBtn');
+$resetBtn.on('click', resetGame);
+
 
 console.log(player1Pieces);
 console.log(player2Pieces);

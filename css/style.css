@@ -18,14 +18,14 @@
   display: inline-flex;
   background-color: white;
   width:8vw;
-  height: 7vw;
+  height: 8vw;
   border: 1px solid black;
 }
 
 .grid2 {
   background-color: red;
   width:8vw;
-  height: 7vw;
+  height: 8vw;
   border: 1px solid black;
   text-align: center;
   font-size: 60px;
