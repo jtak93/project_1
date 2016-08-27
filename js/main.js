@@ -76,5 +76,6 @@ $resetBtn = $('#resetBtn');
 $resetBtn.on('click', resetGame);
 
 
+
 console.log(player1Pieces);
 console.log(player2Pieces);
