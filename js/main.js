@@ -31,6 +31,7 @@ var numPieces2 = 12;
 var boardObjects = []; // Stores all board objects, see board array above
 var playerTurn = 0;
 
+// playable html divs to jQuery
 var $grid = $('.grid2');
 
 // Iterate through board array and append correct text or image to correct grid
@@ -82,7 +83,7 @@ function checkWin() {
 
 // check for player 1 valid moves
 function checkValidMovesP1() {
-  boardObjects.forEach(function(obj, i, arr) {
+  boardObjects.forEach(function(obj, i) {
     // checks for player 1 turn
     if (playerTurn%2  === 0){
 
@@ -185,10 +186,20 @@ function checkValidMovesP1() {
 
 
 
-
-
-// attach event listener
-
+// attach event listeners
+function attachHoverEvent() {
+  boardObjects.forEach(function(obj, i) {
+    if (obj.validMove) {
+      $grid.eq(i).hover(
+        function() {
+          $(this).css({"background-color": "yellow", "cursor": "pointer"});
+        }, function() {
+          $(this).css({"background-color": "red", "cursor": "auto"});
+        }
+      );
+    }
+  });
+}
 
 // assign jquery pointer to reset button to variable
 // attach event listener to reset game button with resetGame function
@@ -200,5 +211,6 @@ createPieces();
 render();
 checkValidMovesP1();
 console.log(boardObjects);
+attachHoverEvent();
 
 
