@@ -16,7 +16,7 @@ playerTurn = "one", "two"
 resetGame function
   reinitialize the board array
 
-
+if playerturn%2===0 ? this : this
 
 function checkValidMoves //Gonna be the bulk of game logic
   check if piece has valid move based on player turn

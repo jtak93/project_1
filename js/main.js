@@ -47,6 +47,7 @@ function render() {
       $grid.eq(i).html('O');
     }
   }
+  attachHoverEvent();
 }
 
 function createPieces() {
@@ -81,11 +82,20 @@ function checkWin() {
 
 }
 
+function checkValidMoves() {
+  if (playerTurn%2 === 0) {
+    checkValidMovesP1();
+  } else {
+    checkValidMovesP2();
+  }
+}
+
 // check for player 1 valid moves
 function checkValidMovesP1() {
   boardObjects.forEach(function(obj, i) {
+    obj.validMove = false;
     // checks for player 1 turn
-    if (playerTurn%2  === 0){
+    if (playerTurn%2  === 0) {
 
       // checks all player 1 pieces
       if (obj['player'] === 1) {
@@ -177,9 +187,110 @@ function checkValidMovesP1() {
             }
           }
         }
-      } else { // if not player 1 piece
-            obj.validMove = false;
+      }
+    }
+  });
+}
+
+// check player 2 valid moves
+function checkValidMovesP2() {
+  boardObjects.forEach(function(obj, i) {
+    // reset valid moves
+    obj.validMove = false;
+    // checks for player 2 turn
+    if (playerTurn%2  === 1) {
+
+      // checks all player 1 pieces
+      if (obj['player'] === 2) {
+        if (obj['position'] === 27) {
+          if (!boardObjects[31]['full']) {
+            obj.validMove = true;
+          }
+        } else {
+          // 24,25,26
+          for (var i = 24; i < 27; i++) {
+            if (obj['position'] === i) {
+              if (!boardObjects[i-5]['full'] || !boardObjects[i-4]['full']) {
+                obj.validMove = true;
+              }
+            }
+          }
+          // pos 3,11,19
+          for (var i = 3; i < 20; i = i + 8) {
+            if (obj['position'] === i) {
+              if (!boardObjects[i+4]['full'] || (boardObjects[i+4]['player'] === 1 && !boardObjects[i+7]['full'])) {
+                obj.validMove = true;
+              }
+            }
+          }
+          // 2,10,18
+          for (var i = 2; i < 19; i = i + 8) {
+            if (obj['position'] === i) {
+              if (!boardObjects[i+5]['full'] || (boardObjects[i+5]['player'] === 1 && !boardObjects[i+9]['full']) ||
+                  !boardObjects[i+4]['full'] || (boardObjects[i+4]['player'] === 1 && !boardObjects[i+7]['full'])) {
+                obj.validMove = true;
+              }
+            }
+          }
+          // 1,9,17
+          for (var i = 1; i < 18; i = i + 8) {
+            if (obj['position'] === i) {
+              if (!boardObjects[i+5]['full'] || (boardObjects[i+5]['player'] === 1 && !boardObjects[i-9]['full']) ||
+                  !boardObjects[i+4]['full'] || (boardObjects[i+4]['player'] === 1 && !boardObjects[i-7]['full'])) {
+                obj.validMove = true;
+              }
+            }
+          }
+          // 0,8,16
+          for (var i = 0; i < 17; i = i + 8) {
+            if (obj['position'] === i) {
+              if (!boardObjects[i+5]['full'] || (boardObjects[i+5]['player'] === 1 && !boardObjects[i+9]['full']) ||
+                  !boardObjects[i+4]['full']) {
+                obj.validMove = true;
+              }
+            }
+          }
+
+          // 7,15,23
+          for (var i = 7; i < 24; i = i + 8) {
+              if (obj['position'] === i) {
+                if (!boardObjects[i+3]['full'] || (boardObjects[i+3]['player'] === 1 && !boardObjects[i+7]['full']) ||
+                    !boardObjects[i+4]['full']) {
+                  obj.validMove = true;
+                }
+              }
+          }
+
+          // 6,14,22
+          for (var i = 6; i < 23; i = i + 8) {
+            if (obj['position'] === i) {
+              if (!boardObjects[i+4]['full'] || (boardObjects[i+4]['player'] === 1 && !boardObjects[i+9]['full']) ||
+                  !boardObjects[i+3]['full'] || (boardObjects[i+3]['player'] === 1 && !boardObjects[i+7]['full'])) {
+                obj.validMove = true;
+              }
+            }
+          }
+
+          // 5,13,21
+          for (var i = 5; i < 22; i = i + 8) {
+            if (obj['position'] === i) {
+              if (!boardObjects[i+4]['full'] || (boardObjects[i+4]['player'] === 1 && !boardObjects[i+9]['full']) ||
+                  !boardObjects[i+3]['full'] || (boardObjects[i+3]['player'] === 1 && !boardObjects[i+7]['full'])) {
+                obj.validMove = true;
+              }
+            }
+          }
+
+          // 4,12,20
+          for (var i = 4; i < 21; i = i + 8) {
+            if (obj['position'] === i) {
+              if (!boardObjects[i+4]['full'] || (boardObjects[i+4]['player'] === 1 && !boardObjects[i+9]['full'])) {
+                obj.validMove = true;
+              }
+            }
+          }
         }
+      }
     }
   });
 }
@@ -197,9 +308,12 @@ function attachHoverEvent() {
           $(this).css({"background-color": "red", "cursor": "auto"});
         }
       );
+    } else {
+      $grid.eq(i).off(); // if no valid move, remove the event
     }
   });
 }
+
 
 // assign jquery pointer to reset button to variable
 // attach event listener to reset game button with resetGame function
@@ -210,7 +324,8 @@ $resetBtn.on('click', resetGame);
 createPieces();
 render();
 checkValidMovesP1();
+render();
 console.log(boardObjects);
-attachHoverEvent();
+
 
 
