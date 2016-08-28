@@ -34,15 +34,17 @@ var playerTurn = 0;
 var $grid = $('.grid2');
 
 // Iterate through board array and append correct text or image to correct grid
+// also attaches object data to corresponding position
 function render() {
   for ( i = 0; i < boardObjects.length; i++) {
+    $grid.eq(i).data(boardObjects[i]);
     if (boardObjects[i].player === null) {
       $grid.eq(i).html('');
-  }else if (boardObjects[i].player === 2){
+    } else if (boardObjects[i].player === 2){
       $grid.eq(i).html('X');
-  }else if (boardObjects[i].player === 1){
+    } else if (boardObjects[i].player === 1){
       $grid.eq(i).html('O');
-  }
+    }
   }
 }
 
@@ -83,14 +85,14 @@ function checkValidMovesP1() {
   boardObjects.forEach(function(obj, i, arr) {
     // checks for player 1 turn
     if (playerTurn%2  === 0){
-      // all player 1 pieces
+
+      // checks all player 1 pieces
       if (obj['player'] === 1) {
         if (obj['position'] === 4) {
           if (!boardObjects[0]['full']) {
             obj.validMove = true;
           }
         } else {
-          // refactor checkmovep1
           // 5,6,7
           for (var i = 5; i < 8; i++) {
             if (obj['position'] === i) {
@@ -174,12 +176,13 @@ function checkValidMovesP1() {
             }
           }
         }
-      } else {
+      } else { // if not player 1 piece
             obj.validMove = false;
         }
-      }
+    }
   });
 }
+
 
 
 
