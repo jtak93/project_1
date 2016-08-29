@@ -10,6 +10,10 @@ class CheckerPiece {
     this.jumped = false;
     this.full = full;
     this.moveTo = []; // stores index where object can move to
+
+    this.makeMove = function() {
+      // movePiece();
+    };
   }
 }
 
@@ -484,14 +488,45 @@ function checkValidMovesP2() {
 
 // move function retrieves clicked element data then changes object data based on move
 function movePiece() {
+  // check position
+  if ($clickedObjData.position === 20) {
+    //check for move spots
+    for (var i = 0; i < $clickedObjData.moveTo.length; i++) {
+      var prevClick = $clickedObjData;
+      $grid.eq(16).on('click', function() {
+        makeP1(16);
+        makeEmpty(20);
+        turnCounter++;
+        render();
+      });
+    }
+  }
+}
 
+// function to make board object empty
+function makeEmpty(idx) {
+  boardObjects[idx].player = null;
+  boardObjects[idx].full = false;
+  boardObjects[idx].moveto = [];
+  boardObjects[idx].position = idx;
+  boardObjects[idx].jumped = false;
+  boardObjects[idx].validMove = false;
+}
+
+function makeP1(idx) {
+  boardObjects[idx].player = 1;
+  boardObjects[idx].full = true;
+  boardObjects[idx].moveto = [];
+  boardObjects[idx].position = idx;
+  boardObjects[idx].jumped = false;
+  boardObjects[idx].validMove = false;
 }
 
 // when you click an element, it returns the objData as a jquery object
 // stores into $clickedObjData
 function clickForData() {
   $grid.on('click', function() {
-  $clickedObjData = $($(this).data());
+  $clickedObjData = $(this).data();
   });
   return $clickedObjData;
 }
@@ -523,7 +558,6 @@ $resetBtn.on('click', resetGame);
 // for debugging ease get rid of later
 createPieces();
 render();
+$grid.on('click', movePiece);
 console.log(boardObjects);
-
-
 
