@@ -11,9 +11,35 @@ class CheckerPiece {
     this.full = full;
     this.moveTo = []; // stores index where object can move to
 
-    this.makeMove = function() {
-      // movePiece();
+    // make object empty piece
+    this.makeEmpty = function(idx) {
+      boardObjects[idx].player = null;
+      boardObjects[idx].full = false;
+      boardObjects[idx].moveto = [];
+      boardObjects[idx].position = idx;
+      boardObjects[idx].jumped = false;
+      boardObjects[idx].validMove = false;
     };
+
+    // make object player 1
+    this.makeP1 = function(idx) {
+      boardObjects[idx].player = 1;
+      boardObjects[idx].full = true;
+      boardObjects[idx].moveto = [];
+      boardObjects[idx].position = idx;
+      boardObjects[idx].jumped = false;
+      boardObjects[idx].validMove = false;
+    }
+
+    // make object player 2
+    this.makeP2 = function(idx) {
+      boardObjects[idx].player = 2;
+      boardObjects[idx].full = true;
+      boardObjects[idx].moveto = [];
+      boardObjects[idx].position = idx;
+      boardObjects[idx].jumped = false;
+      boardObjects[idx].validMove = false;
+    }
   }
 }
 
@@ -59,22 +85,44 @@ function render() {
   clickForData();
 }
 
+// function createPieces() {
+//   // Create player 2 objects
+//   for (i = 0; i < 12; i++) {
+//     var newPiece = new CheckerPiece(2, i, false, true);
+//     boardObjects.push(newPiece);
+//   }
+
+//   // Create blank objects to fill empty spots
+
+//   for (i = 12; i < 20; i++) {
+//     var newPiece = new CheckerPiece(null, i, false, false);
+//     boardObjects.push(newPiece);
+//   }
+
+//   // Create player 1 objects
+//   for (i = 20; i < 32; i++) {
+//     var newPiece = new CheckerPiece(1, i, false, true);
+//     boardObjects.push(newPiece);
+//   }
+// }
+
+// MOSTLY EMPTY OBJECTS FOR DEBUGGING
 function createPieces() {
   // Create player 2 objects
-  for (i = 0; i < 12; i++) {
+  for (i = 0; i < 1; i++) {
     var newPiece = new CheckerPiece(2, i, false, true);
     boardObjects.push(newPiece);
   }
 
   // Create blank objects to fill empty spots
 
-  for (i = 12; i < 20; i++) {
+  for (i = 1; i < 30; i++) {
     var newPiece = new CheckerPiece(null, i, false, false);
     boardObjects.push(newPiece);
   }
 
   // Create player 1 objects
-  for (i = 20; i < 32; i++) {
+  for (i = 30; i < 32; i++) {
     var newPiece = new CheckerPiece(1, i, false, true);
     boardObjects.push(newPiece);
   }
@@ -485,41 +533,75 @@ function checkValidMovesP2() {
     }
   });
 }
-
 // move function retrieves clicked element data then changes object data based on move
 function movePiece() {
   // check position
-  if ($clickedObjData.position === 20) {
+  if ($clickedObjData.player === 1 && $clickedObjData.validMove) {
     //check for move spots
-    for (var i = 0; i < $clickedObjData.moveTo.length; i++) {
-      var prevClick = $clickedObjData;
-      $grid.eq(16).on('click', function() {
-        makeP1(16);
-        makeEmpty(20);
+    // for player 1 position 20
+    if ($clickedObjData.position === 20) {
+      $grid.eq(16).on('click', function(){
+        boardObjects[16].makeP1(16);
+        boardObjects[20].makeEmpty(20);
+        turnCounter++
+        render();
+      });
+      $grid.eq(13).on('click', function(){
+        boardObjects[13].makeP1(13);
+        boardObjects[20].makeEmpty(20);
+        render();
+      });
+    }
+
+    // player 1 position 21
+    if ($clickedObjData.position === 21) {
+      $grid.eq(16).on('click', function(){
+        boardObjects[16].makeP1(16);
+        boardObjects[21].makeEmpty(21);
         turnCounter++;
+        render();
+      });
+      $grid.eq(12).on('click', function(){
+        boardObjects[12].makeP1(12);
+        boardObjects[21].makeEmpty(21);
+        render();
+      });
+      $grid.eq(17).on('click', function(){
+        boardObjects[17].makeP1(17);
+        boardObjects[21].makeEmpty(21);
+        render();
+      });
+      $grid.eq(14).on('click', function(){
+        boardObjects[14].makeP1(14);
+        boardObjects[21].makeEmpty(21);
+        render();
+      });
+    }
+
+    // player 1 position 22
+    if ($clickedObjData.position === 22) {
+      $grid.eq(17).on('click', function(){
+        boardObjects[17].makeP1(17);
+        boardObjects[22].makeEmpty(22);
+        render();
+      });
+      $grid.eq(13).on('click', function(){
+        boardObjects[13].makeP1(13);
+        boardObjects[22].makeEmpty(22);
+        render();
+      });
+      $grid.eq(18).on('click', function(){
+        boardObjects[18].makeP1(18);
+        boardObjects[22].makeEmpty(22);
+        render();
+      });
+      $grid.eq(14).on('click', function(){
+        boardObjects[15].makeP1(15);
+        boardObjects[22].makeEmpty(22);
         render();
       });
     }
   }
-}
-
-// function to make board object empty
-function makeEmpty(idx) {
-  boardObjects[idx].player = null;
-  boardObjects[idx].full = false;
-  boardObjects[idx].moveto = [];
-  boardObjects[idx].position = idx;
-  boardObjects[idx].jumped = false;
-  boardObjects[idx].validMove = false;
-}
-
-function makeP1(idx) {
-  boardObjects[idx].player = 1;
-  boardObjects[idx].full = true;
-  boardObjects[idx].moveto = [];
-  boardObjects[idx].position = idx;
-  boardObjects[idx].jumped = false;
-  boardObjects[idx].validMove = false;
 }
 
 // when you click an element, it returns the objData as a jquery object
