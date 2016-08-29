@@ -82,7 +82,7 @@ function render() {
     }
   }
   attachHoverEvent();
-  clickForData();
+  // clickForData();
   return boardObjects;
 }
 
@@ -534,18 +534,19 @@ function checkValidMovesP2() {
     }
   });
 }
+
+$grid.on('click', movePiece);
 // move function retrieves clicked element data then changes object data based on move
 function movePiece() {
   // check position
   if ($clickedObjData.player === 1 && $clickedObjData.validMove) {
     //check for move spots
-    // player 1 forward move pos 4,12,20,28,11,19,27
+    // player 1 forward move pos 4,11,12,19,20,27,28
     if ($clickedObjData.position === 4  ||
-        $clickedObjData.position === 12 ||
-        $clickedObjData.position === 20 ||
-        $clickedObjData.position === 28 ||
         $clickedObjData.position === 11 ||
+        $clickedObjData.position === 12 ||
         $clickedObjData.position === 19 ||
+        $clickedObjData.position === 20 ||
         $clickedObjData.position === 27 ||
         $clickedObjData.position === 28) {
             // stores clicked position value
@@ -615,6 +616,8 @@ function movePiece() {
                 render();
               });
             }
+            $grid.eq(clickedPos - 3).off();
+            $grid.eq(clickedPos - 4).off();
     }
 
 
@@ -968,7 +971,7 @@ function movePiece() {
 function clickForData() {
   $grid.on('click', function() {
   $clickedObjData = $(this).data();
-  $grid.on('click', movePiece);
+  // $grid.on('click', movePiece);
   });
   return $clickedObjData;
 }
@@ -1001,4 +1004,5 @@ $resetBtn.on('click', resetGame);
 createPieces();
 render();
 console.log(boardObjects);
+  clickForData();
 
