@@ -87,9 +87,14 @@ function render() {
     }
   }
   attachHoverEvent();
+  changeTurnDisplay();
   return boardObjects;
 }
 
+function changeTurnDisplay() {
+  // player 1 turn
+  turnCounter%2 === 0 ? $('.turnDisplay').text('Player Turn: 1') : $('.turnDisplay').text('Player Turn: 2');
+}
 function createPieces() {
   // Create player 2 objects
   for (i = 0; i < 12; i++) {
