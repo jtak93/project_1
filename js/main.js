@@ -11,34 +11,78 @@ class CheckerPiece {
     this.full = full;
     this.clicked = false;
   }
-    // make object empty piece
-  makeEmpty(idx) {
-    boardObjects[idx].player = null;
-    boardObjects[idx].full = false;
-    boardObjects[idx].position = idx;
-    boardObjects[idx].jumped = false;
-    boardObjects[idx].validMove = false;
-    boardObjects[idx].clicked = false;
-  };
 
-    // make object player 1
-  makeP1(idx) {
-      boardObjects[idx].player = 1;
-      boardObjects[idx].full = true;
-      boardObjects[idx].position = idx;
-      boardObjects[idx].jumped = false;
-      boardObjects[idx].validMove = false;
-      boardObjects[idx].clicked = false;
+  // method to move player object back 3 index positions
+  movePMinusThree(currentPos) {
+    // store blank object
+    var temp = boardObjects[currentPos - 3];
+    // change new pos to moved object
+    boardObjects[currentPos - 3] = boardObjects[currentPos];
+    boardObjects[currentPos - 3].position = currentPos - 3;
+    // set old position to empty object
+    boardObjects[currentPos] = temp;
+    boardObjects[currentPos].position = currentPos;
+  }
+  // method to move player object back 4 index positions
+  movePMinusFour(currentPos) {
+    // store blank object
+    var temp = boardObjects[currentPos - 4];
+    // change new pos to moved object
+    boardObjects[currentPos - 4] = boardObjects[currentPos];
+    boardObjects[currentPos - 4].position = currentPos - 4;
+    // set old position to empty object
+    boardObjects[currentPos] = temp;
+    boardObjects[currentPos].position = currentPos;
   }
 
-    // make object player 2
-  makeP2(idx) {
-      boardObjects[idx].player = 2;
-      boardObjects[idx].full = true;
-      boardObjects[idx].position = idx;
-      boardObjects[idx].jumped = false;
-      boardObjects[idx].validMove = false;
-      boardObjects[idx].clicked = false;
+  // method to move player object back 5 index positions
+  movePMinusFive(currentPos) {
+    // store blank object
+    var temp = boardObjects[currentPos - 5];
+    // change new pos to moved object
+    boardObjects[currentPos - 5] = boardObjects[currentPos];
+    boardObjects[currentPos - 5].position = currentPos - 5;
+    // set old position to empty object
+    boardObjects[currentPos] = temp;
+    boardObjects[currentPos].position = currentPos;
+
+  }
+
+  // method to move player object forward 3 index positions
+  movePPlusThree(currentPos) {
+    // store blank object
+    var temp = boardObjects[currentPos + 3];
+    // change new pos to moved object
+    boardObjects[currentPos + 3] = boardObjects[currentPos];
+    boardObjects[currentPos + 3].position = currentPos + 3;
+    // set old position to empty object
+    boardObjects[currentPos] = temp;
+    boardObjects[currentPos].position = currentPos;
+  }
+
+  // method to move player object forward 4 index positions
+  movePPlusFour(currentPos) {
+    // store blank object
+    var temp = boardObjects[currentPos + 4];
+    // change new pos to moved object
+    boardObjects[currentPos + 4] = boardObjects[currentPos];
+    boardObjects[currentPos + 4].position = currentPos + 4;
+    // set old position to empty object
+    boardObjects[currentPos] = temp;
+    boardObjects[currentPos].position = currentPos;
+  }
+
+  // method to move player object forward 5 index positions
+  movePPlusFive(currentPos) {
+    // store blank object
+    var temp = boardObjects[currentPos + 5];
+    // change new pos to moved object
+    boardObjects[currentPos + 5] = boardObjects[currentPos];
+    boardObjects[currentPos + 5].position = currentPos + 5;
+    // set old position to empty object
+    boardObjects[currentPos] = temp;
+    boardObjects[currentPos].position = currentPos;
+
   }
 
   makeClicked(idx) {
@@ -80,6 +124,10 @@ function render() {
     $grid.eq(i).data(boardObjects[i]);
     if (boardObjects[i].player === null) {
       $grid.eq(i).html('');
+    } else if (boardObjects[i].player === 2 && boardObjects[i].king){
+      $grid.eq(i).html('K');
+    } else if (boardObjects[i].player === 1 && boardObjects[i].king){
+      $grid.eq(i).html('A');
     } else if (boardObjects[i].player === 2){
       $grid.eq(i).html('X');
     } else if (boardObjects[i].player === 1){
@@ -95,48 +143,50 @@ function changeTurnDisplay() {
   // player 1 turn
   turnCounter%2 === 0 ? $('.turnDisplay').text('Player Turn: 1') : $('.turnDisplay').text('Player Turn: 2');
 }
-function createPieces() {
-  // Create player 2 objects
-  for (i = 0; i < 12; i++) {
-    var newPiece = new CheckerPiece(2, i, false, true);
-    boardObjects.push(newPiece);
-  }
 
-  // Create blank objects to fill empty spots
-
-  for (i = 12; i < 20; i++) {
-    var newPiece = new CheckerPiece(null, i, false, false);
-    boardObjects.push(newPiece);
-  }
-
-  // Create player 1 objects
-  for (i = 20; i < 32; i++) {
-    var newPiece = new CheckerPiece(1, i, false, true);
-    boardObjects.push(newPiece);
-  }
-}
-
-// // MOSTLY EMPTY OBJECTS FOR DEBUGGING
 // function createPieces() {
 //   // Create player 2 objects
-//   for (i = 0; i < 4; i++) {
+//   for (i = 0; i < 12; i++) {
 //     var newPiece = new CheckerPiece(2, i, false, true);
 //     boardObjects.push(newPiece);
 //   }
 
 //   // Create blank objects to fill empty spots
 
-//   for (i = 4; i < 28; i++) {
+//   for (i = 12; i < 20; i++) {
 //     var newPiece = new CheckerPiece(null, i, false, false);
 //     boardObjects.push(newPiece);
 //   }
 
 //   // Create player 1 objects
-//   for (i = 28; i < 32; i++) {
+//   for (i = 20; i < 32; i++) {
 //     var newPiece = new CheckerPiece(1, i, false, true);
 //     boardObjects.push(newPiece);
 //   }
 // }
+
+// MOSTLY EMPTY OBJECTS FOR DEBUGGING
+function createPieces() {
+  // Create player 2 objects
+  for (i = 0; i < 4; i++) {
+    var newPiece = new CheckerPiece(2, i, false, true);
+    boardObjects.push(newPiece);
+  }
+
+  // Create blank objects to fill empty spots
+
+  for (i = 4; i < 28; i++) {
+    var newPiece = new CheckerPiece(null, i, false, false);
+    boardObjects.push(newPiece);
+  }
+
+  // Create player 1 objects
+  for (i = 28; i < 32; i++) {
+    var newPiece = new CheckerPiece(1, i, false, true);
+    boardObjects.push(newPiece);
+  }
+}
+
 // reset board state and render
 function resetGame() {
   boardObjects = [];
@@ -146,7 +196,13 @@ function resetGame() {
 }
 
 // check for winner
+// if player has no pieces, other player wins
+// if player has no valid moves on own turn, other player wins
 function checkWin() {
+  // if (turnCounter%2 === 0) {
+
+  // }
+
 
 }
 
@@ -512,14 +568,12 @@ function movePiece(evt) {
             if (!boardObjects[clickedPos - 4].full) {
               // add event
               $grid.eq(clickedPos - 4).on('click' , function() {
-                boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
-                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
                 turnCounter++;
                 render();
                 // remove event
                 $grid.eq(clickedPos - 4).off('click' , function() {
-                  boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
-                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                  boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
                 });
               });
             }
@@ -543,25 +597,21 @@ function movePiece(evt) {
             var clickedPos = $(this).data().position;
             if (!boardObjects[clickedPos - 5].full) {
               $grid.eq(clickedPos - 5).on('click' , function() {
-                boardObjects[clickedPos - 5].makeP1(clickedPos - 5);
-                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 5].movePMinusFive(clickedPos);
                 turnCounter++;
                 render();
                 $grid.eq(clickedPos - 5).off('click' , function() {
-                  boardObjects[clickedPos - 5].makeP1(clickedPos - 5);
-                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                  boardObjects[clickedPos - 5].movePMinusFive(clickedPos);
                 });
               });
             }
             if (!boardObjects[clickedPos - 4].full) {
               $grid.eq(clickedPos - 4).on('click' , function() {
-                boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
-                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
                 turnCounter++;
                 render();
                 $grid.eq(clickedPos - 4).off('click' , function() {
-                  boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
-                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                  boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
                 });
               });
             }
@@ -581,27 +631,23 @@ function movePiece(evt) {
             if (!boardObjects[clickedPos - 3].full) {
               // add click event
               $grid.eq(clickedPos - 3).on('click' , function(evt) {
-                boardObjects[clickedPos - 3].makeP1(clickedPos - 3);
-                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 3].movePMinusThree(clickedPos);
                 turnCounter++;
                 render();
                 // remove click event
                 $grid.eq(clickedPos - 3).off('click' , function(evt) {
-                  boardObjects[clickedPos - 3].makeP1(clickedPos - 3);
-                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                  boardObjects[clickedPos - 3].movePMinusThree(clickedPos);
                 });
               });
             }
             if (!boardObjects[clickedPos - 4].full) {
               $grid.eq(clickedPos - 4).on('click' , function(evt) {
-                boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
-                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
                 turnCounter++;
                 render();
                 // remove click event
                 $grid.eq(clickedPos - 4).off('click' , function(evt) {
-                  boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
-                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                  boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
                 });
               });
 
@@ -850,14 +896,12 @@ function movePiece(evt) {
             if (!boardObjects[clickedPos + 4].full) {
               // add event
               $grid.eq(clickedPos + 4).on('click' , function() {
-                boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
-                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos + 4].movePPlusFour(clickedPos);
                 turnCounter++;
                 render();
                 // remove event
                 $grid.eq(clickedPos + 4).off('click' , function() {
                   boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
-                  boardObjects[clickedPos].makeEmpty(clickedPos);
                 });
               });
             }
@@ -881,25 +925,21 @@ function movePiece(evt) {
             var clickedPos = $(this).data().position;
             if (!boardObjects[clickedPos + 5].full) {
               $grid.eq(clickedPos + 5).on('click' , function() {
-                boardObjects[clickedPos + 5].makeP2(clickedPos + 5);
-                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos + 5].movePPlusFive(clickedPos);
                 turnCounter++;
                 render();
                 $grid.eq(clickedPos + 5).off('click' , function() {
-                  boardObjects[clickedPos + 5].makeP2(clickedPos + 5);
-                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                  boardObjects[clickedPos + 5].movePPlusFive(clickedPos);
                 });
               });
             }
             if (!boardObjects[clickedPos + 4].full) {
               $grid.eq(clickedPos + 4).on('click' , function() {
-                boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
-                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos + 4].movePPlusFour(clickedPos);
                 turnCounter++;
                 render();
                 $grid.eq(clickedPos + 4).off('click' , function() {
-                  boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
-                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                  boardObjects[clickedPos + 4].movePPlusFour(clickedPos);
                 });
               });
             }
@@ -919,27 +959,23 @@ function movePiece(evt) {
             if (!boardObjects[clickedPos + 3].full) {
               // add click event
               $grid.eq(clickedPos + 3).on('click' , function(evt) {
-                boardObjects[clickedPos + 3].makeP2(clickedPos + 3);
-                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos + 3].movePPlusThree(clickedPos);
                 turnCounter++;
                 render();
                 // remove click event
                 $grid.eq(clickedPos + 3).off('click' , function(evt) {
-                  boardObjects[clickedPos + 3].makeP2(clickedPos + 3);
-                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                  boardObjects[clickedPos + 3].movePPlusThree(clickedPos);
                 });
               });
             }
             if (!boardObjects[clickedPos + 4].full) {
               $grid.eq(clickedPos + 4).on('click' , function(evt) {
-                boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
-                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos + 4].movePPlusFour(clickedPos);
                 turnCounter++;
                 render();
                 // remove click event
                 $grid.eq(clickedPos + 4).off('click' , function(evt) {
-                  boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
-                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                  boardObjects[clickedPos + 4].movePPlusFour(clickedPos);
                 });
               });
             }
