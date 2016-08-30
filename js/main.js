@@ -177,7 +177,6 @@ function checkValidMovesP1() {
     // reset valid moves
     obj.validMove = false;
     if (obj.jumped) {
-      debugger;
       // iterate through board objects, exclude jumped obj
       // set all valid move to false except jumped obj
       for (j = 0; j < boardObjects.length; j++) {
@@ -619,7 +618,6 @@ function movePiece(evt) {
             $grid.eq(clickedPos - 7).on('click' , function() {
               boardObjects[clickedPos - 7].makeP1(clickedPos - 7);
               boardObjects[clickedPos - 7].jumped = true;
-              debugger;
               boardObjects[clickedPos].makeEmpty(clickedPos);
               boardObjects[clickedPos - 4].makeEmpty(clickedPos - 4);
               render();
@@ -632,6 +630,174 @@ function movePiece(evt) {
             });
           }
     }
+
+    // forward jumps player 1 pos 8,16,24
+    if ($(this).data().position === 8  ||
+        $(this).data().position === 16 ||
+        $(this).data().position === 24) {
+          // stores clicked position value
+          var clickedPos = $(this).data().position;
+          if (!boardObjects[clickedPos - 7].full
+              && boardObjects[clickedPos - 3].player === 2) {
+            // add event
+            $grid.eq(clickedPos - 7).on('click' , function() {
+              boardObjects[clickedPos - 7].makeP1(clickedPos - 7);
+              boardObjects[clickedPos - 7].jumped = true;
+              boardObjects[clickedPos].makeEmpty(clickedPos);
+              boardObjects[clickedPos - 3].makeEmpty(clickedPos - 3);
+              render();
+              // remove event
+              $grid.eq(clickedPos - 7).off('click' , function() {
+                boardObjects[clickedPos - 7].makeP1(clickedPos - 7);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 3].makeEmpty(clickedPos - 3);
+              });
+            });
+          }
+    }
+
+    // forward jumps player 1 pos 13,14,21,22,29,30
+    if ($(this).data().position === 13 ||
+        $(this).data().position === 14 ||
+        $(this).data().position === 21 ||
+        $(this).data().position === 22 ||
+        $(this).data().position === 29 ||
+        $(this).data().position === 30) {
+          // stores clicked position value
+          var clickedPos = $(this).data().position;
+          if (!boardObjects[clickedPos - 7].full
+              && boardObjects[clickedPos - 4].player === 2) {
+            // add event
+            $grid.eq(clickedPos - 7).on('click' , function() {
+              boardObjects[clickedPos - 7].makeP1(clickedPos - 7);
+              boardObjects[clickedPos - 7].jumped = true;
+              boardObjects[clickedPos].makeEmpty(clickedPos);
+              boardObjects[clickedPos - 4].makeEmpty(clickedPos - 4);
+              render();
+              // remove event
+              $grid.eq(clickedPos - 7).off('click' , function() {
+                boardObjects[clickedPos - 7].makeP1(clickedPos - 7);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 4].makeEmpty(clickedPos - 4);
+              });
+            });
+          }
+
+          if (!boardObjects[clickedPos - 9].full
+              && boardObjects[clickedPos - 5].player === 2) {
+            // add event
+            $grid.eq(clickedPos - 9).on('click' , function() {
+              boardObjects[clickedPos - 9].makeP1(clickedPos - 9);
+              boardObjects[clickedPos - 9].jumped = true;
+              boardObjects[clickedPos].makeEmpty(clickedPos);
+              boardObjects[clickedPos - 5].makeEmpty(clickedPos - 5);
+              render();
+              // remove event
+              $grid.eq(clickedPos - 9).off('click' , function() {
+                boardObjects[clickedPos - 9].makeP1(clickedPos - 9);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 5].makeEmpty(clickedPos - 5);
+              });
+            });
+          }
+    }
+
+    // forward jumps player 1 pos 9,10,17,18,25,26
+    if ($(this).data().position === 9  ||
+        $(this).data().position === 10 ||
+        $(this).data().position === 17 ||
+        $(this).data().position === 18 ||
+        $(this).data().position === 25 ||
+        $(this).data().position === 26) {
+          // stores clicked position value
+          var clickedPos = $(this).data().position;
+          if (!boardObjects[clickedPos - 7].full
+              && boardObjects[clickedPos - 3].player === 2) {
+            // add event
+            $grid.eq(clickedPos - 7).on('click' , function() {
+              boardObjects[clickedPos - 7].makeP1(clickedPos - 7);
+              boardObjects[clickedPos - 7].jumped = true;
+              boardObjects[clickedPos].makeEmpty(clickedPos);
+              boardObjects[clickedPos - 3].makeEmpty(clickedPos - 3);
+              render();
+              // remove event
+              $grid.eq(clickedPos - 7).off('click' , function() {
+                boardObjects[clickedPos - 7].makeP1(clickedPos - 7);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 3].makeEmpty(clickedPos - 3);
+              });
+            });
+          }
+
+          if (!boardObjects[clickedPos - 9].full
+              && boardObjects[clickedPos - 4].player === 2) {
+            // add event
+            $grid.eq(clickedPos - 9).on('click' , function() {
+              boardObjects[clickedPos - 9].makeP1(clickedPos - 9);
+              boardObjects[clickedPos - 9].jumped = true;
+              boardObjects[clickedPos].makeEmpty(clickedPos);
+              boardObjects[clickedPos - 4].makeEmpty(clickedPos - 4);
+              render();
+              // remove event
+              $grid.eq(clickedPos - 9).off('click' , function() {
+                boardObjects[clickedPos - 9].makeP1(clickedPos - 9);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 4].makeEmpty(clickedPos - 4);
+              });
+            });
+          }
+    }
+
+    // forward jumps player 1 pos 15,23,31
+    if ($(this).data().position === 15 ||
+        $(this).data().position === 23 ||
+        $(this).data().position === 31) {
+          // stores clicked position value
+          var clickedPos = $(this).data().position;
+          if (!boardObjects[clickedPos - 9].full
+              && boardObjects[clickedPos - 5].player === 2) {
+            // add event
+            $grid.eq(clickedPos - 9).on('click' , function() {
+              boardObjects[clickedPos - 9].makeP1(clickedPos - 9);
+              boardObjects[clickedPos - 9].jumped = true;
+              boardObjects[clickedPos].makeEmpty(clickedPos);
+              boardObjects[clickedPos - 5].makeEmpty(clickedPos - 5);
+              render();
+              // remove event
+              $grid.eq(clickedPos - 9).off('click' , function() {
+                boardObjects[clickedPos - 9].makeP1(clickedPos - 9);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 5].makeEmpty(clickedPos - 5);
+              });
+            });
+          }
+    }
+
+    // forward jumps player 1 pos 11,19,27
+    if ($(this).data().position === 11 ||
+        $(this).data().position === 19 ||
+        $(this).data().position === 27) {
+          // stores clicked position value
+          var clickedPos = $(this).data().position;
+          if (!boardObjects[clickedPos - 9].full
+              && boardObjects[clickedPos - 4].player === 2) {
+            // add event
+            $grid.eq(clickedPos - 9).on('click' , function() {
+              boardObjects[clickedPos - 9].makeP1(clickedPos - 9);
+              boardObjects[clickedPos - 9].jumped = true;
+              boardObjects[clickedPos].makeEmpty(clickedPos);
+              boardObjects[clickedPos - 4].makeEmpty(clickedPos - 4);
+              render();
+              // remove event
+              $grid.eq(clickedPos - 9).off('click' , function() {
+                boardObjects[clickedPos - 9].makeP1(clickedPos - 9);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 4].makeEmpty(clickedPos - 4);
+              });
+            });
+          }
+    }
+
 
   }
 
@@ -742,7 +908,6 @@ function movePiece(evt) {
                   boardObjects[clickedPos].makeEmpty(clickedPos);
                 });
               });
-
             }
     }
   }
@@ -771,6 +936,9 @@ function removeEvents() {
 
 // makes object clicked
 $board.on('click', '.grid2', function(event) {
+  for (i = 0; i < boardObjects.length; i++) {
+    boardObjects[i].clicked = false;
+  }
   boardObjects[parseInt(this.id)].clicked = true;
 });
 
