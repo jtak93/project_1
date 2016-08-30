@@ -177,8 +177,13 @@ function checkValidMovesP1() {
     // reset valid moves
     obj.validMove = false;
     if (obj.jumped) {
-      obj.validMove = true;
-      return true;
+      debugger;
+      // iterate through board objects, exclude jumped obj
+      // set all valid move to false except jumped obj
+      for (j = 0; j < boardObjects.length; j++) {
+        boardObjects[j].validMove = false;
+        boardObjects[i].validMove = true;
+      }
     }
     // checks for player 1 turn
     else if (turnCounter%2  === 0) {
@@ -335,7 +340,6 @@ function checkValidMovesP2() {
   boardObjects.forEach(function(obj, i) {
     // reset valid moves
     obj.validMove = false;
-          console.log(obj.jumped);
     if (obj.jumped) {
 
       obj.validMove = true;
@@ -617,7 +621,7 @@ function movePiece(evt) {
               boardObjects[clickedPos - 7].jumped = true;
               debugger;
               boardObjects[clickedPos].makeEmpty(clickedPos);
-              boardObjects[clickedPos - 4].makeEmpty(clickedPos + 4);
+              boardObjects[clickedPos - 4].makeEmpty(clickedPos - 4);
               render();
               // remove event
               $grid.eq(clickedPos - 7).off('click' , function() {
@@ -628,6 +632,7 @@ function movePiece(evt) {
             });
           }
     }
+
   }
 
   if ($(this).data().player === 2 && $(this).data().validMove && boardObjects[parseInt(this.id)].clicked) {
