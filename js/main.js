@@ -10,13 +10,11 @@ class CheckerPiece {
     this.jumped = false;
     this.full = full;
     this.clicked = false;
-    this.moveTo = []; // stores index where object can move to
   }
     // make object empty piece
   makeEmpty(idx) {
     boardObjects[idx].player = null;
     boardObjects[idx].full = false;
-    boardObjects[idx].moveTo = [];
     boardObjects[idx].position = idx;
     boardObjects[idx].jumped = false;
     boardObjects[idx].validMove = false;
@@ -27,7 +25,6 @@ class CheckerPiece {
   makeP1(idx) {
       boardObjects[idx].player = 1;
       boardObjects[idx].full = true;
-      boardObjects[idx].moveTo = [];
       boardObjects[idx].position = idx;
       boardObjects[idx].jumped = false;
       boardObjects[idx].validMove = false;
@@ -38,7 +35,6 @@ class CheckerPiece {
   makeP2(idx) {
       boardObjects[idx].player = 2;
       boardObjects[idx].full = true;
-      boardObjects[idx].moveTo = [];
       boardObjects[idx].position = idx;
       boardObjects[idx].jumped = false;
       boardObjects[idx].validMove = false;
@@ -94,48 +90,48 @@ function render() {
   return boardObjects;
 }
 
-// function createPieces() {
-//   // Create player 2 objects
-//   for (i = 0; i < 12; i++) {
-//     var newPiece = new CheckerPiece(2, i, false, true);
-//     boardObjects.push(newPiece);
-//   }
-
-//   // Create blank objects to fill empty spots
-
-//   for (i = 12; i < 20; i++) {
-//     var newPiece = new CheckerPiece(null, i, false, false);
-//     boardObjects.push(newPiece);
-//   }
-
-//   // Create player 1 objects
-//   for (i = 20; i < 32; i++) {
-//     var newPiece = new CheckerPiece(1, i, false, true);
-//     boardObjects.push(newPiece);
-//   }
-// }
-
-// MOSTLY EMPTY OBJECTS FOR DEBUGGING
 function createPieces() {
   // Create player 2 objects
-  for (i = 0; i < 1; i++) {
+  for (i = 0; i < 12; i++) {
     var newPiece = new CheckerPiece(2, i, false, true);
     boardObjects.push(newPiece);
   }
 
   // Create blank objects to fill empty spots
 
-  for (i = 1; i < 28; i++) {
+  for (i = 12; i < 20; i++) {
     var newPiece = new CheckerPiece(null, i, false, false);
     boardObjects.push(newPiece);
   }
 
   // Create player 1 objects
-  for (i = 28; i < 32; i++) {
+  for (i = 20; i < 32; i++) {
     var newPiece = new CheckerPiece(1, i, false, true);
     boardObjects.push(newPiece);
   }
 }
+
+// // MOSTLY EMPTY OBJECTS FOR DEBUGGING
+// function createPieces() {
+//   // Create player 2 objects
+//   for (i = 0; i < 4; i++) {
+//     var newPiece = new CheckerPiece(2, i, false, true);
+//     boardObjects.push(newPiece);
+//   }
+
+//   // Create blank objects to fill empty spots
+
+//   for (i = 4; i < 28; i++) {
+//     var newPiece = new CheckerPiece(null, i, false, false);
+//     boardObjects.push(newPiece);
+//   }
+
+//   // Create player 1 objects
+//   for (i = 28; i < 32; i++) {
+//     var newPiece = new CheckerPiece(1, i, false, true);
+//     boardObjects.push(newPiece);
+//   }
+// }
 // reset board state and render
 function resetGame() {
   boardObjects = [];
@@ -180,16 +176,18 @@ function checkValidMovesP1() {
   boardObjects.forEach(function(obj, i) {
     // reset valid moves
     obj.validMove = false;
-    obj.moveTo = [];
+    if (obj.jumped) {
+      obj.validMove = true;
+      return true;
+    }
     // checks for player 1 turn
-    if (turnCounter%2  === 0) {
+    else if (turnCounter%2  === 0) {
       // stil need to check jump and check king
       // checks all player 1 pieces non jump or king
       if (obj['player'] === 1) {
         if (obj['position'] === 4) {
           if (!boardObjects[0]['full']) {
             obj.validMove = true;
-            obj.moveTo.push(0);
           }
         }
         // 5,6,7
@@ -197,11 +195,9 @@ function checkValidMovesP1() {
           if (obj['position'] === i) {
             if (!boardObjects[i-5]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-5);
             }
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-4);
             }
           }
         }
@@ -210,11 +206,9 @@ function checkValidMovesP1() {
           if (obj['position'] === i) {
             if (!boardObjects[i-4]['full']){
               obj.validMove = true;
-              obj.moveTo.push(i-4);
             }
             if(boardObjects[i-4]['player'] === 2 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-7);
             }
           }
         }
@@ -223,19 +217,15 @@ function checkValidMovesP1() {
           if (obj['position'] === i) {
             if (!boardObjects[i-5]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-5);
             }
             if (boardObjects[i-5]['player'] === 2 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-9);
             }
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-4);
             }
             if (boardObjects[i-4]['player'] === 2 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-7);
             }
           }
         }
@@ -244,19 +234,15 @@ function checkValidMovesP1() {
           if (obj['position'] === i) {
             if (!boardObjects[i-5]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-5);
             }
             if (boardObjects[i-5]['player'] === 2 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-9);
             }
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-4);
             }
             if (boardObjects[i-4]['player'] === 2 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-7);
             }
           }
         }
@@ -265,15 +251,12 @@ function checkValidMovesP1() {
           if (obj['position'] === i) {
             if (!boardObjects[i-5]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-5);
             }
             if (boardObjects[i-5]['player'] === 2 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-9);
             }
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-4);
             }
           }
         }
@@ -283,15 +266,12 @@ function checkValidMovesP1() {
           if (obj['position'] === i) {
             if (!boardObjects[i-3]['full']){
               obj.validMove = true;
-              obj.moveTo.push(i-3);
             }
             if (boardObjects[i-3]['player'] === 2 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-7);
             }
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-4);
             }
           }
         }
@@ -301,19 +281,15 @@ function checkValidMovesP1() {
           if (obj['position'] === i) {
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-4);
             }
             if (boardObjects[i-4]['player'] === 2 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-9);
             }
             if (!boardObjects[i-3]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-3);
             }
             if (boardObjects[i-3]['player'] === 2 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-7);
             }
           }
         }
@@ -323,19 +299,15 @@ function checkValidMovesP1() {
           if (obj['position'] === i) {
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-4);
             }
             if (boardObjects[i-4]['player'] === 2 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-9);
             }
             if (!boardObjects[i-3]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-3);
             }
             if (boardObjects[i-3]['player'] === 2 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-7);
             }
           }
         }
@@ -345,11 +317,9 @@ function checkValidMovesP1() {
           if (obj['position'] === i) {
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-4);
             }
             if (boardObjects[i-4]['player'] === 2 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i-9);
             }
           }
         }
@@ -365,28 +335,30 @@ function checkValidMovesP2() {
   boardObjects.forEach(function(obj, i) {
     // reset valid moves
     obj.validMove = false;
-    obj.moveTo = [];
+          console.log(obj.jumped);
+    if (obj.jumped) {
+
+      obj.validMove = true;
+      return true;
+    }
     // checks for player 2 turn
-    if (turnCounter%2  === 1) {
+    else if (turnCounter%2  === 1) {
       // stil need to check jump and check king
       // checks all player 2 pieces non jump or king
       if (obj['player'] === 2) {
         if (obj['position'] === 27) {
           if (!boardObjects[31]['full']) {
             obj.validMove = true;
-            obj.moveTo.push(31);
           }
         }
         // 24,25,26
         for (var i = 24; i < 27; i++) {
           if (obj['position'] === i) {
             if (!boardObjects[i+5]['full']) {
-              obj.validMove = full;
-              obj.moveTo.push(i+5);
+              obj.validMove = true;
             }
             if (!boardObjects[i+4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+4);
             }
           }
         }
@@ -395,11 +367,9 @@ function checkValidMovesP2() {
           if (obj['position'] === i) {
             if (!boardObjects[i+4]['full']){
               obj.validMove = true;
-              obj.moveTo.push(i+4);
             }
             if(boardObjects[i+4]['player'] === 1 && !boardObjects[i+7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+7);
             }
           }
         }
@@ -408,19 +378,15 @@ function checkValidMovesP2() {
           if (obj['position'] === i) {
             if (!boardObjects[i+5]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+5);
             }
             if (boardObjects[i+5]['player'] === 1 && !boardObjects[i+9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+9);
             }
             if (!boardObjects[i+4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+4);
             }
             if (boardObjects[i+4]['player'] === 1 && !boardObjects[i+7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+7);
             }
           }
         }
@@ -429,19 +395,15 @@ function checkValidMovesP2() {
           if (obj['position'] === i) {
             if (!boardObjects[i+5]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+5);
             }
             if (boardObjects[i+5]['player'] === 1 && !boardObjects[i+9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+9);
             }
             if (!boardObjects[i+4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+4);
             }
             if (boardObjects[i+4]['player'] === 1 && !boardObjects[i+7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+7);
             }
           }
         }
@@ -450,15 +412,12 @@ function checkValidMovesP2() {
           if (obj['position'] === i) {
             if (!boardObjects[i+5]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+5);
             }
             if (boardObjects[i+5]['player'] === 2 && !boardObjects[i+9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+9);
             }
-            if (boardObjects[i+4]['full']) {
+            if (!boardObjects[i+4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+4);
             }
           }
         }
@@ -468,15 +427,12 @@ function checkValidMovesP2() {
           if (obj['position'] === i) {
             if (!boardObjects[i+3]['full']){
               obj.validMove = true;
-              obj.moveTo.push(i+3);
             }
             if (boardObjects[i+3]['player'] === 1 && !boardObjects[i+7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+7);
             }
             if (!boardObjects[i+4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+4);
             }
           }
         }
@@ -486,19 +442,15 @@ function checkValidMovesP2() {
           if (obj['position'] === i) {
             if (!boardObjects[i+4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+4);
             }
             if (boardObjects[i+4]['player'] === 1 && !boardObjects[i+9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+9);
             }
             if (!boardObjects[i+3]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+3);
             }
             if (boardObjects[i+3]['player'] === 1 && !boardObjects[i+7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+7);
             }
           }
         }
@@ -508,19 +460,15 @@ function checkValidMovesP2() {
           if (obj['position'] === i) {
             if (!boardObjects[i+4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+4);
             }
             if (boardObjects[i+4]['player'] === 1 && !boardObjects[i+9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+9);
             }
             if (!boardObjects[i+3]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+3);
             }
             if (boardObjects[i+3]['player'] === 1 && !boardObjects[i+7]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+7);
             }
           }
         }
@@ -530,11 +478,9 @@ function checkValidMovesP2() {
           if (obj['position'] === i) {
             if (!boardObjects[i+4]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+4);
             }
             if (boardObjects[i+4]['player'] === 1 && !boardObjects[i+9]['full']) {
               obj.validMove = true;
-              obj.moveTo.push(i+9);
             }
           }
         }
@@ -546,9 +492,9 @@ function checkValidMovesP2() {
 
 // move function retrieves clicked element data then changes object data based on move
 function movePiece(evt) {
-  console.log($(this).data().position);
   if ($(this).data().player === 1 && $(this).data().validMove && boardObjects[parseInt(this.id)].clicked) {
     //check for move spots
+
     // player 1 forward move pos 4,11,12,19,20,27,28
     if ($(this).data().position === 4  ||
         $(this).data().position === 11 ||
@@ -564,6 +510,7 @@ function movePiece(evt) {
               $grid.eq(clickedPos - 4).on('click' , function() {
                 boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
                 boardObjects[clickedPos].makeEmpty(clickedPos);
+                turnCounter++;
                 render();
                 // remove event
                 $grid.eq(clickedPos - 4).off('click' , function() {
@@ -594,6 +541,7 @@ function movePiece(evt) {
               $grid.eq(clickedPos - 5).on('click' , function() {
                 boardObjects[clickedPos - 5].makeP1(clickedPos - 5);
                 boardObjects[clickedPos].makeEmpty(clickedPos);
+                turnCounter++;
                 render();
                 $grid.eq(clickedPos - 5).off('click' , function() {
                   boardObjects[clickedPos - 5].makeP1(clickedPos - 5);
@@ -605,6 +553,7 @@ function movePiece(evt) {
               $grid.eq(clickedPos - 4).on('click' , function() {
                 boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
                 boardObjects[clickedPos].makeEmpty(clickedPos);
+                turnCounter++;
                 render();
                 $grid.eq(clickedPos - 4).off('click' , function() {
                   boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
@@ -630,6 +579,7 @@ function movePiece(evt) {
               $grid.eq(clickedPos - 3).on('click' , function(evt) {
                 boardObjects[clickedPos - 3].makeP1(clickedPos - 3);
                 boardObjects[clickedPos].makeEmpty(clickedPos);
+                turnCounter++;
                 render();
                 // remove click event
                 $grid.eq(clickedPos - 3).off('click' , function(evt) {
@@ -642,10 +592,148 @@ function movePiece(evt) {
               $grid.eq(clickedPos - 4).on('click' , function(evt) {
                 boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
                 boardObjects[clickedPos].makeEmpty(clickedPos);
+                turnCounter++;
                 render();
                 // remove click event
                 $grid.eq(clickedPos - 4).off('click' , function(evt) {
                   boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
+                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                });
+              });
+
+            }
+    }
+    // forward jumps player 1 pos 12,20,28
+    if ($(this).data().position === 12 ||
+        $(this).data().position === 20 ||
+        $(this).data().position === 28) {
+          // stores clicked position value
+          var clickedPos = $(this).data().position;
+          if (!boardObjects[clickedPos - 7].full
+              && boardObjects[clickedPos - 4].player === 2) {
+            // add event
+            $grid.eq(clickedPos - 7).on('click' , function() {
+              boardObjects[clickedPos - 7].makeP1(clickedPos - 7);
+              boardObjects[clickedPos - 7].jumped = true;
+              debugger;
+              boardObjects[clickedPos].makeEmpty(clickedPos);
+              boardObjects[clickedPos - 4].makeEmpty(clickedPos + 4);
+              render();
+              // remove event
+              $grid.eq(clickedPos - 7).off('click' , function() {
+                boardObjects[clickedPos - 7].makeP1(clickedPos - 7);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                boardObjects[clickedPos - 4].makeEmpty(clickedPos - 4);
+              });
+            });
+          }
+    }
+  }
+
+  if ($(this).data().player === 2 && $(this).data().validMove && boardObjects[parseInt(this.id)].clicked) {
+    //check for move spots
+    // player 2 forward move pos 3,4,11,12,19,20,27
+    if ($(this).data().position === 3  ||
+        $(this).data().position === 4  ||
+        $(this).data().position === 11 ||
+        $(this).data().position === 12 ||
+        $(this).data().position === 19 ||
+        $(this).data().position === 20 ||
+        $(this).data().position === 27) {
+            // stores clicked position value
+            var clickedPos = $(this).data().position;
+            if (!boardObjects[clickedPos + 4].full) {
+              // add event
+              $grid.eq(clickedPos + 4).on('click' , function() {
+                boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                turnCounter++;
+                render();
+                // remove event
+                $grid.eq(clickedPos + 4).off('click' , function() {
+                  boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
+                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                });
+              });
+            }
+    }
+
+    // player 2 forward move position 0,1,2,8,9,10,16,17,18,24,25,26
+    if ($(this).data().position === 0 ||
+        $(this).data().position === 1 ||
+        $(this).data().position === 2 ||
+        $(this).data().position === 8 ||
+        $(this).data().position === 9 ||
+        $(this).data().position === 10 ||
+        $(this).data().position === 16 ||
+        $(this).data().position === 17 ||
+        $(this).data().position === 18 ||
+        $(this).data().position === 24 ||
+        $(this).data().position === 25 ||
+        $(this).data().position === 26) {
+            // stores clicked position value
+          console.log($(this).data().position);
+            var clickedPos = $(this).data().position;
+            if (!boardObjects[clickedPos + 5].full) {
+              $grid.eq(clickedPos + 5).on('click' , function() {
+                boardObjects[clickedPos + 5].makeP2(clickedPos + 5);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                turnCounter++;
+                render();
+                $grid.eq(clickedPos + 5).off('click' , function() {
+                  boardObjects[clickedPos + 5].makeP2(clickedPos + 5);
+                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                });
+              });
+            }
+            if (!boardObjects[clickedPos + 4].full) {
+              $grid.eq(clickedPos + 4).on('click' , function() {
+                boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                turnCounter++;
+                render();
+                $grid.eq(clickedPos + 4).off('click' , function() {
+                  boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
+                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                });
+              });
+            }
+    }
+
+    // player 2 forward move position 5,6,7,13,14,15,21,22,23
+    if ($(this).data().position === 5 ||
+        $(this).data().position === 6 ||
+        $(this).data().position === 17 ||
+        $(this).data().position === 13 ||
+        $(this).data().position === 14 ||
+        $(this).data().position === 15 ||
+        $(this).data().position === 21 ||
+        $(this).data().position === 22 ||
+        $(this).data().position === 23) {
+            var clickedPos = $(this).data().position;
+            if (!boardObjects[clickedPos + 3].full) {
+              // add click event
+              $grid.eq(clickedPos + 3).on('click' , function(evt) {
+                boardObjects[clickedPos + 3].makeP2(clickedPos + 3);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                turnCounter++;
+                render();
+                // remove click event
+                $grid.eq(clickedPos + 3).off('click' , function(evt) {
+                  boardObjects[clickedPos + 3].makeP2(clickedPos + 3);
+                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                });
+              });
+            }
+            if (!boardObjects[clickedPos + 4].full) {
+              $grid.eq(clickedPos + 4).on('click' , function(evt) {
+                boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
+                boardObjects[clickedPos].makeEmpty(clickedPos);
+                turnCounter++;
+                render();
+                // remove click event
+                $grid.eq(clickedPos + 4).off('click' , function(evt) {
+                  boardObjects[clickedPos + 4].makeP2(clickedPos + 4);
                   boardObjects[clickedPos].makeEmpty(clickedPos);
                 });
               });
