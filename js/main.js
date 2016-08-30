@@ -9,6 +9,7 @@ class CheckerPiece {
     this.validMove = validMove;
     this.jumped = false;
     this.full = full;
+    this.clicked = false;
     this.moveTo = []; // stores index where object can move to
   }
     // make object empty piece
@@ -19,6 +20,7 @@ class CheckerPiece {
     boardObjects[idx].position = idx;
     boardObjects[idx].jumped = false;
     boardObjects[idx].validMove = false;
+    boardObjects[idx].clicked = false;
   };
 
     // make object player 1
@@ -29,6 +31,7 @@ class CheckerPiece {
       boardObjects[idx].position = idx;
       boardObjects[idx].jumped = false;
       boardObjects[idx].validMove = false;
+      boardObjects[idx].clicked = false;
   }
 
     // make object player 2
@@ -39,6 +42,11 @@ class CheckerPiece {
       boardObjects[idx].position = idx;
       boardObjects[idx].jumped = false;
       boardObjects[idx].validMove = false;
+      boardObjects[idx].clicked = false;
+  }
+
+  makeClicked(idx) {
+    boardObjects[idx].clicked = true;
   }
 }
 
@@ -66,6 +74,7 @@ var playerMoved = false; // stores whether played made move this turn (for jump 
 
 // playable html divs to jQuery
 var $grid = $('.grid2');
+var $board = $('.board');
 
 // Iterate through board array and append correct text or image to correct grid
 // also attaches object data to corresponding position
@@ -82,7 +91,6 @@ function render() {
     }
   }
   attachHoverEvent();
-  // clickForData();
   return boardObjects;
 }
 
@@ -188,7 +196,7 @@ function checkValidMovesP1() {
         for (var i = 5; i < 8; i++) {
           if (obj['position'] === i) {
             if (!boardObjects[i-5]['full']) {
-              obj.validMove = full;
+              obj.validMove = true;
               obj.moveTo.push(i-5);
             }
             if (!boardObjects[i-4]['full']) {
@@ -535,51 +543,62 @@ function checkValidMovesP2() {
   });
 }
 
-$grid.on('click', movePiece);
+
 // move function retrieves clicked element data then changes object data based on move
-function movePiece() {
-  // check position
-  if ($clickedObjData.player === 1 && $clickedObjData.validMove) {
+function movePiece(evt) {
+  console.log($(this).data().position);
+  if ($(this).data().player === 1 && $(this).data().validMove && boardObjects[parseInt(this.id)].clicked) {
     //check for move spots
     // player 1 forward move pos 4,11,12,19,20,27,28
-    if ($clickedObjData.position === 4  ||
-        $clickedObjData.position === 11 ||
-        $clickedObjData.position === 12 ||
-        $clickedObjData.position === 19 ||
-        $clickedObjData.position === 20 ||
-        $clickedObjData.position === 27 ||
-        $clickedObjData.position === 28) {
+    if ($(this).data().position === 4  ||
+        $(this).data().position === 11 ||
+        $(this).data().position === 12 ||
+        $(this).data().position === 19 ||
+        $(this).data().position === 20 ||
+        $(this).data().position === 27 ||
+        $(this).data().position === 28) {
             // stores clicked position value
             var clickedPos = $(this).data().position;
             if (!boardObjects[clickedPos - 4].full) {
+              // add event
               $grid.eq(clickedPos - 4).on('click' , function() {
                 boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
                 boardObjects[clickedPos].makeEmpty(clickedPos);
                 render();
+                // remove event
+                $grid.eq(clickedPos - 4).off('click' , function() {
+                  boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
+                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                });
               });
             }
     }
 
     // player 1 forward move position 5,6,7,13,14,15,21,22,23,29,30,31
-    if ($clickedObjData.position === 5 ||
-        $clickedObjData.position === 6 ||
-        $clickedObjData.position === 7 ||
-        $clickedObjData.position === 13 ||
-        $clickedObjData.position === 14 ||
-        $clickedObjData.position === 15 ||
-        $clickedObjData.position === 21 ||
-        $clickedObjData.position === 22 ||
-        $clickedObjData.position === 23 ||
-        $clickedObjData.position === 29 ||
-        $clickedObjData.position === 30 ||
-        $clickedObjData.position === 31) {
+    if ($(this).data().position === 5 ||
+        $(this).data().position === 6 ||
+        $(this).data().position === 7 ||
+        $(this).data().position === 13 ||
+        $(this).data().position === 14 ||
+        $(this).data().position === 15 ||
+        $(this).data().position === 21 ||
+        $(this).data().position === 22 ||
+        $(this).data().position === 23 ||
+        $(this).data().position === 29 ||
+        $(this).data().position === 30 ||
+        $(this).data().position === 31) {
             // stores clicked position value
+          console.log($(this).data().position);
             var clickedPos = $(this).data().position;
             if (!boardObjects[clickedPos - 5].full) {
               $grid.eq(clickedPos - 5).on('click' , function() {
                 boardObjects[clickedPos - 5].makeP1(clickedPos - 5);
                 boardObjects[clickedPos].makeEmpty(clickedPos);
                 render();
+                $grid.eq(clickedPos - 5).off('click' , function() {
+                  boardObjects[clickedPos - 5].makeP1(clickedPos - 5);
+                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                });
               });
             }
             if (!boardObjects[clickedPos - 4].full) {
@@ -587,395 +606,54 @@ function movePiece() {
                 boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
                 boardObjects[clickedPos].makeEmpty(clickedPos);
                 render();
+                $grid.eq(clickedPos - 4).off('click' , function() {
+                  boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
+                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                });
               });
             }
     }
 
     // player 1 forward move position 8,9,10,16,17,18,24,25,26
-    if ($clickedObjData.position === 8 ||
-        $clickedObjData.position === 9 ||
-        $clickedObjData.position === 10 ||
-        $clickedObjData.position === 16 ||
-        $clickedObjData.position === 17 ||
-        $clickedObjData.position === 18 ||
-        $clickedObjData.position === 24 ||
-        $clickedObjData.position === 25 ||
-        $clickedObjData.position === 26) {
+    if ($(this).data().position === 8 ||
+        $(this).data().position === 9 ||
+        $(this).data().position === 10 ||
+        $(this).data().position === 16 ||
+        $(this).data().position === 17 ||
+        $(this).data().position === 18 ||
+        $(this).data().position === 24 ||
+        $(this).data().position === 25 ||
+        $(this).data().position === 26) {
             var clickedPos = $(this).data().position;
             if (!boardObjects[clickedPos - 3].full) {
-              $grid.eq(clickedPos - 3).on('click' , function() {
+              // add click event
+              $grid.eq(clickedPos - 3).on('click' , function(evt) {
                 boardObjects[clickedPos - 3].makeP1(clickedPos - 3);
                 boardObjects[clickedPos].makeEmpty(clickedPos);
                 render();
+                // remove click event
+                $grid.eq(clickedPos - 3).off('click' , function(evt) {
+                  boardObjects[clickedPos - 3].makeP1(clickedPos - 3);
+                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                });
               });
             }
             if (!boardObjects[clickedPos - 4].full) {
-              $grid.eq(clickedPos - 4).on('click' , function() {
+              $grid.eq(clickedPos - 4).on('click' , function(evt) {
                 boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
                 boardObjects[clickedPos].makeEmpty(clickedPos);
                 render();
+                // remove click event
+                $grid.eq(clickedPos - 4).off('click' , function(evt) {
+                  boardObjects[clickedPos - 4].makeP1(clickedPos - 4);
+                  boardObjects[clickedPos].makeEmpty(clickedPos);
+                });
               });
+
             }
-            $grid.eq(clickedPos - 3).off();
-            $grid.eq(clickedPos - 4).off();
     }
-
-
-  //   // player 1 position 20
-  //   if ($clickedObjData.position === 20) {
-  //     $grid.eq(16).on('click', function(){
-  //       if (!boardObjects[16].full) {
-  //         boardObjects[16].makeP1(16);
-  //         boardObjects[20].makeEmpty(20);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(13).on('click', function(){
-  //       if (!boardObjects[13].full && boardObjects[16].player === 2) {
-  //         boardObjects[13].makeP1(13);
-  //         boardObjects[20].makeEmpty(20);
-  //         boardObjects[16].makeEmpty(16);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-  //   // player 1 position 21
-  //   if ($clickedObjData.position === 21) {
-  //     $grid.eq(16).on('click', function(){
-  //       if (!boardObjects[16].full) {
-  //         boardObjects[16].makeP1(16);
-  //         boardObjects[21].makeEmpty(21);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(17).on('click', function(){
-  //       if (!boardObjects[17].full) {
-  //         boardObjects[17].makeP1(17);
-  //         boardObjects[21].makeEmpty(21);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(12).on('click', function(){
-  //       if (!boardObjects[12].full && boardObjects[16].player === 2) {
-  //         boardObjects[12].makeP1(12);
-  //         boardObjects[21].makeEmpty(21);
-  //         boardObjects[16].makeEmpty(16);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(14).on('click', function(){
-  //       if (!boardObjects[14].full && boardObjects[17].player === 2) {
-  //         boardObjects[14].makeP1(14);
-  //         boardObjects[21].makeEmpty(21);
-  //         boardObjects[17].makeEmpty(17);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-
-  //   // player 1 position 22
-  //   if ($clickedObjData.position === 22) {
-  //     $grid.eq(17).on('click', function(){
-  //       if (!boardObjects[17].full) {
-  //         boardObjects[17].makeP1(17);
-  //         boardObjects[22].makeEmpty(22);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(18).on('click', function(){
-  //       if (!boardObjects[18].full) {
-  //         boardObjects[18].makeP1(18);
-  //         boardObjects[22].makeEmpty(22);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(13).on('click', function(){
-  //       if (!boardObjects[13].full && boardObjects[17].player === 2) {
-  //         boardObjects[13].makeP1(13);
-  //         boardObjects[22].makeEmpty(22);
-  //         boardObjects[17].makeEmpty(17);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(15).on('click', function(){
-  //       if (!boardObjects[15].full && boardObjects[18].player === 2) {
-  //         boardObjects[15].makeP1(15);
-  //         boardObjects[22].makeEmpty(22);
-  //         boardObjects[18].makeEmpty(18);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-  //   // player 1 position 23
-  //   if ($clickedObjData.position === 23) {
-  //     $grid.eq(19).on('click', function(){
-  //       if (!boardObjects[19].full) {
-  //         boardObjects[19].makeP1(19);
-  //         boardObjects[23].makeEmpty(23);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(18).on('click', function(){
-  //       if (!boardObjects[18].full) {
-  //         boardObjects[18].makeP1(18);
-  //         boardObjects[23].makeEmpty(23);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(14).on('click', function(){
-  //       if (!boardObjects[14].full && boardObjects[18].player === 2) {
-  //         boardObjects[14].makeP1(14);
-  //         boardObjects[23].makeEmpty(23);
-  //         // make jumped piece empty
-  //         boardObjects[18].makeEmpty(18);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-  //   // player 1 position 24
-  //   if ($clickedObjData.position === 24) {
-  //     $grid.eq(20).on('click', function(){
-  //       if (!boardObjects[20].full) {
-  //         boardObjects[20].makeP1(20);
-  //         boardObjects[24].makeEmpty(24);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(21).on('click', function(){
-  //       if (!boardObjects[21].full) {
-  //         boardObjects[21].makeP1(21);
-  //         boardObjects[24].makeEmpty(24);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(17).on('click', function(){
-  //       if (!boardObjects[17].full && boardObjects[21].player === 2) {
-  //         boardObjects[17].makeP1(17);
-  //         boardObjects[24].makeEmpty(24);
-  //         // make jumped piece empty
-  //         boardObjects[21].makeEmpty(21);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-  //   // player 1 position 25
-  //   if ($clickedObjData.position === 25) {
-  //     $grid.eq(21).on('click', function(){
-  //       if (!boardObjects[21].full) {
-  //         boardObjects[21].makeP1(21);
-  //         boardObjects[25].makeEmpty(25);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(22).on('click', function(){
-  //       if (!boardObjects[22].full) {
-  //         boardObjects[22].makeP1(22);
-  //         boardObjects[25].makeEmpty(25);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(16).on('click', function(){
-  //       if (!boardObjects[16].full && boardObjects[21].player === 2) {
-  //         boardObjects[16].makeP1(16);
-  //         boardObjects[25].makeEmpty(25);
-  //         boardObjects[21].makeEmpty(21);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(18).on('click', function(){
-  //       if (!boardObjects[18].full && boardObjects[22].player === 2) {
-  //         boardObjects[18].makeP1(18);
-  //         boardObjects[25].makeEmpty(25);
-  //         boardObjects[22].makeEmpty(22);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-  //   // player 1 position 26
-  //   if ($clickedObjData.position === 26) {
-  //     $grid.eq(23).on('click', function(){
-  //       if (!boardObjects[23].full) {
-  //         boardObjects[23].makeP1(23);
-  //         boardObjects[26].makeEmpty(26);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(22).on('click', function(){
-  //       if (!boardObjects[22].full) {
-  //         boardObjects[22].makeP1(22);
-  //         boardObjects[26].makeEmpty(26);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(19).on('click', function(){
-  //       if (!boardObjects[19].full && boardObjects[23].player === 2) {
-  //         boardObjects[19].makeP1(19);
-  //         boardObjects[26].makeEmpty(26);
-  //         boardObjects[23].makeEmpty(23);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(17).on('click', function(){
-  //       if (!boardObjects[17].full && boardObjects[22].player === 2) {
-  //         boardObjects[17].makeP1(17);
-  //         boardObjects[26].makeEmpty(26);
-  //         boardObjects[22].makeEmpty(22);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-  //   // player 1 position 27
-  //   if ($clickedObjData.position === 27) {
-  //     $grid.eq(23).on('click', function(){
-  //       if (!boardObjects[23].full) {
-  //         boardObjects[23].makeP1(23);
-  //         boardObjects[27].makeEmpty(27);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(18).on('click', function(){
-  //       if (!boardObjects[18].full && boardObjects[23].player === 2) {
-  //         boardObjects[18].makeP1(18);
-  //         boardObjects[27].makeEmpty(27);
-  //         boardObjects[23].makeEmpty(23);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-  //   // player 1 position 28
-  //   if ($clickedObjData.position === 28) {
-  //     $grid.eq(24).on('click', function(){
-  //       if (!boardObjects[24].full) {
-  //         boardObjects[24].makeP1(24);
-  //         boardObjects[28].makeEmpty(28);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(21).on('click', function(){
-  //       if (!boardObjects[21].full && boardObjects[24].player === 2) {
-  //         boardObjects[21].makeP1(21);
-  //         boardObjects[28].makeEmpty(28);
-  //         boardObjects[24].makeEmpty(24);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-  //   // player 1 position 29
-  //   if ($clickedObjData.position === 29) {
-  //     $grid.eq(25).on('click', function(){
-  //       if (!boardObjects[25].full) {
-  //         boardObjects[25].makeP1(25);
-  //         boardObjects[29].makeEmpty(29);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(24).on('click', function(){
-  //       if (!boardObjects[24].full) {
-  //         boardObjects[24].makeP1(24);
-  //         boardObjects[29].makeEmpty(29);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(20).on('click', function(){
-  //       if (!boardObjects[20].full && boardObjects[24].player === 2) {
-  //         boardObjects[20].makeP1(20);
-  //         boardObjects[29].makeEmpty(29);
-  //         boardObjects[24].makeEmpty(24);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(22).on('click', function(){
-  //       if (!boardObjects[22].full && boardObjects[25].player === 2) {
-  //         boardObjects[22].makeP1(22);
-  //         boardObjects[29].makeEmpty(29);
-  //         boardObjects[25].makeEmpty(25);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-
-  //   // player 1 position 30
-  //   if ($clickedObjData.position === 30) {
-  //     $grid.eq(25).on('click', function(){
-  //       if (!boardObjects[25].full) {
-  //         boardObjects[25].makeP1(25);
-  //         boardObjects[30].makeEmpty(30);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(26).on('click', function(){
-  //       if (!boardObjects[26].full) {
-  //         boardObjects[26].makeP1(26);
-  //         boardObjects[30].makeEmpty(30);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(21).on('click', function(){
-  //       if (!boardObjects[21].full && boardObjects[25].player === 2) {
-  //         boardObjects[21].makeP1(21);
-  //         boardObjects[30].makeEmpty(30);
-  //         boardObjects[25].makeEmpty(25);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(23).on('click', function(){
-  //       if (!boardObjects[23].full && boardObjects[26].player === 2) {
-  //         boardObjects[23].makeP1(23);
-  //         boardObjects[30].makeEmpty(30);
-  //         boardObjects[26].makeEmpty(26);
-  //         render();
-  //       }
-  //     });
-  //   }
-
-  //   // player 1 position 31
-  //   if ($clickedObjData.position === 31) {
-  //     $grid.eq(27).on('click', function(){
-  //       if (!boardObjects[27].full) {
-  //         boardObjects[27].makeP1(27);
-  //         boardObjects[31].makeEmpty(31);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(26).on('click', function(){
-  //       if (!boardObjects[26].full) {
-  //         boardObjects[26].makeP1(26);
-  //         boardObjects[31].makeEmpty(31);
-  //         render();
-  //       }
-  //     });
-  //     $grid.eq(22).on('click', function(){
-  //       if (!boardObjects[22].full && boardObjects[26].player === 2) {
-  //         boardObjects[22].makeP1(22);
-  //         boardObjects[31].makeEmpty(31);
-  //         // make jumped piece empty
-  //         boardObjects[26].makeEmpty(26);
-  //         render();
-  //       }
-  //     });
-  //   }
   }
 }
-// when you click an element, it returns the objData as a jquery object
-// stores into $clickedObjData
-function clickForData() {
-  $grid.on('click', function() {
-  $clickedObjData = $(this).data();
-  // $grid.on('click', movePiece);
-  });
-  return $clickedObjData;
-}
-
 
 // attach event listeners
 function attachHoverEvent() {
@@ -994,6 +672,17 @@ function attachHoverEvent() {
   });
 }
 
+function removeEvents() {
+  $grid.off('click');
+}
+
+// makes object clicked
+$board.on('click', '.grid2', function(event) {
+  boardObjects[parseInt(this.id)].clicked = true;
+});
+
+$board.on('click', '.grid2', movePiece);
+
 
 // assign jquery pointer to reset button to variable
 // attach event listener to reset game button with resetGame function
@@ -1004,5 +693,4 @@ $resetBtn.on('click', resetGame);
 createPieces();
 render();
 console.log(boardObjects);
-  clickForData();
 
