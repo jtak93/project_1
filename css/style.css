@@ -16,18 +16,33 @@
 
 .grid1 {
   display: inline-flex;
-  background-color: white;
+  background-image: url("../assets/images/br-logo.png");
+  background-size: 100%;
+  width:8vw;
+  height: 8vw;
+  border: 1px solid black;
+}
+
+.grid3 {
+  display: inline-flex;
+  background-image: url("../assets/images/ba-logo.png");
+  background-size: 100%;
   width:8vw;
   height: 8vw;
   border: 1px solid black;
 }
 
 .grid2 {
-  background-color: red;
+  background-color: white;
   width:8vw;
   height: 8vw;
   border: 1px solid black;
   text-align: center;
   font-size: 60px;
+}
+
+.boardimg {
+  width: 100%;
+  height: 100%;
 }
 

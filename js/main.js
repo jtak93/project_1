@@ -175,9 +175,6 @@ class CheckerPiece {
     boardObjects[currentPos + 3] = blankObject;
     boardObjects[currentPos + 3].position = currentPos + 3;
   }
-  makeClicked(idx) {
-    boardObjects[idx].clicked = true;
-  }
 }
 
 
@@ -216,13 +213,13 @@ function render() {
     if (boardObjects[i].player === null) {
       $grid.eq(i).html('');
     } else if (boardObjects[i].player === 2 && boardObjects[i].king){
-      $grid.eq(i).html('K');
+      $grid.eq(i).html('<img class="boardimg" src="assets/images/gus-scary.png">');
     } else if (boardObjects[i].player === 1 && boardObjects[i].king){
-      $grid.eq(i).html('A');
+      $grid.eq(i).html('<img class="boardimg" src="assets/images/heisenberg.png">');
     } else if (boardObjects[i].player === 2){
-      $grid.eq(i).html('X');
+      $grid.eq(i).html('<img class="boardimg" src="assets/images/gus-normal.png">');
     } else if (boardObjects[i].player === 1){
-      $grid.eq(i).html('O');
+      $grid.eq(i).html('<img class="boardimg" src="assets/images/walter-white.png">');
     }
   }
   attachHoverEvent();
@@ -232,7 +229,7 @@ function render() {
 
 function changeTurnDisplay() {
   // player 1 turn
-  turnCounter%2 === 0 ? $('.turnDisplay').text('Player Turn: 1') : $('.turnDisplay').text('Player Turn: 2');
+  turnCounter%2 === 0 ? $('.turnDisplay').text('Player Turn: Walt') : $('.turnDisplay').text('Player Turn: Gus');
 }
 
 // function createPieces() {
@@ -315,27 +312,27 @@ function checkWin() {
 
 // checks valid moves based on player turn
 function checkValidMoves() {
+  // checkJumped();
+  // if (checkJumped){
+  //   // do nothing
+  // } else
   if (turnCounter%2 === 0) {
     checkValidMovesP1();
-  } else {
+  } else if (!turnCounter%2 === 0) {
     checkValidMovesP2();
-  }
-  if (playerMoved) {
-  // checkJumped();
   }
 }
 
 // need to fix logic if no move after
 function checkJumped() {
   boardObjects.forEach(function(obj, i) {
-    // reset valid moves
-    obj.validMove = false;
+          console.log(this);
     if (obj.jumped) {
-      if (turnCounter%2 === 0) {
-        checkValidMovesP1();
-      } else {
-        checkValidMovesP2();
-      }
+      console.log(this);
+      obj.validMove = true;
+      return true;
+    } else {
+    return false;
     }
   });
 }
@@ -345,14 +342,6 @@ function checkValidMovesP1() {
   boardObjects.forEach(function(obj, i) {
     // reset valid moves
     obj.validMove = false;
-    // if (obj.jumped) {
-    //   // iterate through board objects, exclude jumped obj
-    //   // set all valid move to false except jumped obj
-    //   for (j = 0; j < boardObjects.length; j++) {
-    //     boardObjects[j].validMove = false;
-    //     boardObjects[i].validMove = true;
-    //   }
-    // }
     // checks for player 1 turn
       if (turnCounter%2  === 0) {
       // stil need to check jump and check king
@@ -360,6 +349,7 @@ function checkValidMovesP1() {
       if (obj['player'] === 1) {
         if (obj['position'] === 4) {
           if (!boardObjects[0]['full']) {
+            console.log(obj);
             obj.validMove = true;
           }
         }
@@ -700,7 +690,6 @@ function movePiece(evt) {
         $(this).data().position === 30 ||
         $(this).data().position === 31) {
             // stores clicked position value
-          console.log($(this).data().position);
             var clickedPos = $(this).data().position;
             if (!boardObjects[clickedPos - 5].full) {
               $grid.eq(clickedPos - 5).on('click' , function() {
@@ -774,9 +763,7 @@ function movePiece(evt) {
               boardObjects[clickedPos - 7].jumped = true;
               // if no valid moves after jump increment turn counter
               checkValidMoves();
-              if (!boardObjects[clickedPos - 7].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos - 7).off('click' , function() {
@@ -799,9 +786,7 @@ function movePiece(evt) {
               boardObjects[clickedPos - 7].jumpMinus7Over3(clickedPos);
               boardObjects[clickedPos - 7].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos - 7].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos - 7).off('click' , function() {
@@ -827,9 +812,7 @@ function movePiece(evt) {
               boardObjects[clickedPos - 7].jumpMinus7Over4(clickedPos);
               boardObjects[clickedPos - 7].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos - 7].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos - 7).off('click' , function() {
@@ -845,9 +828,7 @@ function movePiece(evt) {
               boardObjects[clickedPos - 9].jumpMinus9Over5(clickedPos);
               boardObjects[clickedPos - 9].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos - 9].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos - 9).off('click' , function() {
@@ -873,9 +854,7 @@ function movePiece(evt) {
               boardObjects[clickedPos - 7].jumpMinus7Over3(clickedPos);
               boardObjects[clickedPos - 7].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos - 7].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos - 7).off('click' , function() {
@@ -887,13 +866,11 @@ function movePiece(evt) {
           if (!boardObjects[clickedPos - 9].full
               && boardObjects[clickedPos - 4].player === 2) {
             // add event
-            $grid.eq(clickedPos - 9).on('click' , function() {
+            $grid.eq(clickedPos - 9).on('click', function() {
               boardObjects[clickedPos - 9].jumpMinus9Over4(clickedPos);
               boardObjects[clickedPos - 9].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos - 9].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos - 9).off('click' , function() {
@@ -916,9 +893,7 @@ function movePiece(evt) {
               boardObjects[clickedPos - 9].jumpMinus9Over5(clickedPos);
               boardObjects[clickedPos - 9].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos - 9].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos - 9).off('click' , function() {
@@ -941,9 +916,7 @@ function movePiece(evt) {
               boardObjects[clickedPos - 9].jumpMinus9Over4(clickedPos);
               boardObjects[clickedPos - 9].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos - 9].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos - 9).off('click' , function() {
@@ -996,7 +969,6 @@ function movePiece(evt) {
         $(this).data().position === 25 ||
         $(this).data().position === 26) {
             // stores clicked position value
-          console.log($(this).data().position);
             var clickedPos = $(this).data().position;
             if (!boardObjects[clickedPos + 5].full) {
               $grid.eq(clickedPos + 5).on('click' , function() {
@@ -1093,9 +1065,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 7].jumpPlus7Over3(clickedPos);
               boardObjects[clickedPos + 7].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos + 7].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos + 7).off('click' , function() {
@@ -1139,9 +1109,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 9].jumpPlus9Over5(clickedPos);
               boardObjects[clickedPos + 9].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos + 9].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos + 9).off('click' , function() {
@@ -1167,9 +1135,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 7].jumpPlus7Over3(clickedPos);
               boardObjects[clickedPos + 7].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos + 7].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos + 7).off('click' , function() {
@@ -1185,9 +1151,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 9].jumpPlus9Over4(clickedPos);
               boardObjects[clickedPos + 9].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos + 9].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos + 9).off('click' , function() {
@@ -1210,9 +1174,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 9].jumpPlus9Over5(clickedPos);
               boardObjects[clickedPos + 9].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos + 9].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos + 9).off('click' , function() {
@@ -1235,9 +1197,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 9].jumpPlus9Over4(clickedPos);
               boardObjects[clickedPos + 9].jumped = true;
               checkValidMoves();
-              if (!boardObjects[clickedPos + 9].validMove) {
-                turnCounter++;
-              }
+              turnCounter++;
               render();
               // remove event
               $grid.eq(clickedPos + 9).off('click' , function() {
@@ -1258,7 +1218,7 @@ function attachHoverEvent() {
         function() {
           $(this).css({"background-color": "yellow", "cursor": "pointer"});
         }, function() {
-          $(this).css({"background-color": "red", "cursor": "auto"});
+          $(this).css({"background-color": "white", "cursor": "auto"});
         }
       );
     } else {
@@ -1266,6 +1226,7 @@ function attachHoverEvent() {
     }
   });
 }
+
 
 function removeEvents() {
   $grid.off('click');
