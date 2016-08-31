@@ -275,6 +275,9 @@ function resetGame() {
   boardObjects = [];
   turnCounter = 0;
   createPieces();
+  // hide win message again
+  $('.p1Wins').attr('id', 'waltWins');
+  $('.p2Wins').attr('id', 'gusWins');
   render();
 }
 
@@ -312,10 +315,10 @@ function checkWin() {
     }
   })
   if (p1Pieces === 0) {
-    alert("Gus Wins!")
+    $('.p2Wins').removeAttr('id');
   }
   if (p2Pieces === 0) {
-    alert("Walt Wins!")
+    $('.p1Wins').removeAttr('id');
   }
 }
 
@@ -1234,7 +1237,7 @@ function movePiece(evt) {
           }
     }
     // if player 1 king add player 2 moves
-    if ($(this).data().king)
+    if ($(this).data().king) {
       if ($(this).data().position === 3  ||
           $(this).data().position === 4  ||
           $(this).data().position === 11 ||
@@ -1513,6 +1516,7 @@ function movePiece(evt) {
               });
             }
       }
+    }
   }
 
   if ($(this).data().player === 2 && $(this).data().validMove && boardObjects[parseInt(this.id)].clicked) {
