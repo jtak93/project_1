@@ -2,23 +2,49 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'breakingbad';
+  src: url('../assets/breaking-bad.otf');
+  src: url('../assets/breaking-bad.otf') format('opentype');
+}
+
+body {
+  background-image: url('../assets/images/green-smoke.png');
+  background-size: 100%;
+}
+
+p {
+  color:white;
+}
+
 .text {
   display: inline-flex;
   flex-direction: column;
-  width: 30%;
+  width: 25vw;
+  margin: 0 0 0 3vw;
+}
+
+main {
+  display: inline-flex;
+  flex-direction: row;
 }
 
 header {
+  color:white;
   display: flex;
   flex-direction: column;
 }
 
 header>h1{
   text-align:center;
+  font-family: 'breakingbad';
+  font-size: 12vw;
+  color: green;
+  margin: 0 auto;
 }
 
 hr {
-  display:block;
+  width: 100%;
 }
 
 #resetBtn {
@@ -29,7 +55,8 @@ hr {
 .board {
   display: inline-flex;
   flex-direction: column;
-  border: 3px solid black;
+  border: 3px solid gray;
+  margin: 0 0 0 3vw;
 }
 
 .board .row {
@@ -43,7 +70,7 @@ hr {
   background-size: 100%;
   width:8vw;
   height: 8vw;
-  border: 1px solid black;
+  border: 1px solid white;
 }
 
 .grid3 {
@@ -52,14 +79,14 @@ hr {
   background-size: 100%;
   width:8vw;
   height: 8vw;
-  border: 1px solid black;
+  border: 1px solid white;
 }
 
 .grid2 {
-  background-color: white;
+  background-color: gray;
   width:8vw;
   height: 8vw;
-  border: 1px solid black;
+  border: 1px solid white;
   text-align: center;
   font-size: 60px;
 }
@@ -68,6 +95,7 @@ hr {
   width: 100%;
   height: 100%;
 }
+
 
 @media (max-width: 600px) {
   .boardimg {

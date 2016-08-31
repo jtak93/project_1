@@ -225,48 +225,48 @@ function changeTurnDisplay() {
   turnCounter%2 === 0 ? $('.turnDisplay').text('Player Turn: Walt') : $('.turnDisplay').text('Player Turn: Gus');
 }
 
-// function createPieces() {
-//   // Create player 2 objects
-//   for (i = 0; i < 12; i++) {
-//     var newPiece = new CheckerPiece(2, i, false, true);
-//     boardObjects.push(newPiece);
-//   }
-
-//   // Create blank objects to fill empty spots
-
-//   for (i = 12; i < 20; i++) {
-//     var newPiece = new CheckerPiece(null, i, false, false);
-//     boardObjects.push(newPiece);
-//   }
-
-//   // Create player 1 objects
-//   for (i = 20; i < 32; i++) {
-//     var newPiece = new CheckerPiece(1, i, false, true);
-//     boardObjects.push(newPiece);
-//   }
-// }
-
-// MOSTLY EMPTY OBJECTS FOR DEBUGGING
 function createPieces() {
   // Create player 2 objects
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < 12; i++) {
     var newPiece = new CheckerPiece(2, i, false, true);
     boardObjects.push(newPiece);
   }
 
   // Create blank objects to fill empty spots
 
-  for (i = 4; i < 28; i++) {
+  for (i = 12; i < 20; i++) {
     var newPiece = new CheckerPiece(null, i, false, false);
     boardObjects.push(newPiece);
   }
 
   // Create player 1 objects
-  for (i = 28; i < 32; i++) {
+  for (i = 20; i < 32; i++) {
     var newPiece = new CheckerPiece(1, i, false, true);
     boardObjects.push(newPiece);
   }
 }
+
+// // MOSTLY EMPTY OBJECTS FOR DEBUGGING
+// function createPieces() {
+//   // Create player 2 objects
+//   for (i = 0; i < 4; i++) {
+//     var newPiece = new CheckerPiece(2, i, false, true);
+//     boardObjects.push(newPiece);
+//   }
+
+//   // Create blank objects to fill empty spots
+
+//   for (i = 4; i < 28; i++) {
+//     var newPiece = new CheckerPiece(null, i, false, false);
+//     boardObjects.push(newPiece);
+//   }
+
+//   // Create player 1 objects
+//   for (i = 28; i < 32; i++) {
+//     var newPiece = new CheckerPiece(1, i, false, true);
+//     boardObjects.push(newPiece);
+//   }
+// }
 
 // reset board state and render
 function resetGame() {
@@ -1127,6 +1127,7 @@ function movePiece(evt) {
               boardObjects[clickedPos - 9].jumpMinus9Over5(clickedPos);
               boardObjects[clickedPos - 9].jumped = true;
               checkValidMoves();
+              audioWalt.play();
               turnCounter++;
               render();
               // remove event
@@ -2084,7 +2085,7 @@ function attachHoverEvent() {
         function() {
           $(this).css({"background-color": "yellow", "cursor": "pointer"});
         }, function() {
-          $(this).css({"background-color": "white", "cursor": "auto"});
+          $(this).css({"background-color": "gray", "cursor": "auto"});
         }
       );
     } else {
