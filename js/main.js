@@ -177,19 +177,6 @@ class CheckerPiece {
   }
 }
 
-
-// array to store board state for render function
-// var board =
-// [1, 1, 1, 1,
-//  1, 1, 1, 1,
-//  1, 1, 1, 1,
-//  0, 0, 0, 0,
-//  0, 0, 0, 0,
-//  2, 2, 2, 2,
-//  2, 2, 2, 2,
-//  2, 2, 2, 2]
-//  ;
-
 // stores number of player pieces;
 // decrement when piece is killed;
 var p1Pieces = 0;
@@ -203,7 +190,9 @@ var blankObject = new CheckerPiece(null, null, false, false);
 var $grid = $('.grid2');
 var $board = $('.board');
 
+// sounds for jumps
 var audioWalt = new Audio('assets/sounds/i-am-the-one-who-knocks.mp3');
+var audioGus = new Audio('assets/sounds/gus-quote.mp3');
 
 // Iterate through board array and append correct text or image to correct grid
 // also attaches object data to corresponding position
@@ -1632,6 +1621,7 @@ function movePiece(evt) {
             $grid.eq(clickedPos + 7).on('click' , function() {
               boardObjects[clickedPos + 7].jumpPlus7Over4(clickedPos);
               boardObjects[clickedPos + 7].jumped = true;
+              audioGus.play();
               turnCounter++;
               render();
               // remove event
@@ -1655,6 +1645,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 7].jumpPlus7Over3(clickedPos);
               boardObjects[clickedPos + 7].jumped = true;
               checkValidMoves();
+              audioGus.play();
               turnCounter++;
               render();
               // remove event
@@ -1681,6 +1672,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 7].jumpPlus7Over4(clickedPos);
               boardObjects[clickedPos + 7].jumped = true;
               checkValidMoves();
+              audioGus.play();
               turnCounter++;
               render();
               // remove event
@@ -1697,6 +1689,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 9].jumpPlus9Over5(clickedPos);
               boardObjects[clickedPos + 9].jumped = true;
               checkValidMoves();
+              audioGus.play();
               turnCounter++;
               render();
               // remove event
@@ -1723,6 +1716,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 7].jumpPlus7Over3(clickedPos);
               boardObjects[clickedPos + 7].jumped = true;
               checkValidMoves();
+              audioGus.play();
               turnCounter++;
               render();
               // remove event
@@ -1739,6 +1733,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 9].jumpPlus9Over4(clickedPos);
               boardObjects[clickedPos + 9].jumped = true;
               checkValidMoves();
+              audioGus.play();
               turnCounter++;
               render();
               // remove event
@@ -1762,6 +1757,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 9].jumpPlus9Over5(clickedPos);
               boardObjects[clickedPos + 9].jumped = true;
               checkValidMoves();
+              audioGus.play();
               turnCounter++;
               render();
               // remove event
@@ -1785,6 +1781,7 @@ function movePiece(evt) {
               boardObjects[clickedPos + 9].jumpPlus9Over4(clickedPos);
               boardObjects[clickedPos + 9].jumped = true;
               checkValidMoves();
+              audioGus.play();
               turnCounter++;
               render();
               // remove event
@@ -1929,6 +1926,7 @@ function movePiece(evt) {
                 boardObjects[clickedPos - 7].jumpMinus7Over3(clickedPos);
                 boardObjects[clickedPos - 7].jumped = true;
                 checkValidMoves();
+                audioGus.play();
                 turnCounter++;
                 render();
                 // remove event
@@ -1955,6 +1953,7 @@ function movePiece(evt) {
                 boardObjects[clickedPos - 7].jumpMinus7Over4(clickedPos);
                 boardObjects[clickedPos - 7].jumped = true;
                 checkValidMoves();
+                audioGus.play();
                 turnCounter++;
                 render();
                 // remove event
@@ -1971,6 +1970,7 @@ function movePiece(evt) {
                 boardObjects[clickedPos - 9].jumpMinus9Over5(clickedPos);
                 boardObjects[clickedPos - 9].jumped = true;
                 checkValidMoves();
+                audioGus.play();
                 turnCounter++;
                 render();
                 // remove event
@@ -1997,6 +1997,7 @@ function movePiece(evt) {
                 boardObjects[clickedPos - 7].jumpMinus7Over3(clickedPos);
                 boardObjects[clickedPos - 7].jumped = true;
                 checkValidMoves();
+                audioGus.play();
                 turnCounter++;
                 render();
                 // remove event
@@ -2013,6 +2014,7 @@ function movePiece(evt) {
                 boardObjects[clickedPos - 9].jumpMinus9Over4(clickedPos);
                 boardObjects[clickedPos - 9].jumped = true;
                 checkValidMoves();
+                audioGus.play();
                 turnCounter++;
                 render();
                 // remove event
@@ -2036,6 +2038,7 @@ function movePiece(evt) {
                 boardObjects[clickedPos - 9].jumpMinus9Over5(clickedPos);
                 boardObjects[clickedPos - 9].jumped = true;
                 checkValidMoves();
+                audioGus.play();
                 turnCounter++;
                 render();
                 // remove event
@@ -2059,6 +2062,7 @@ function movePiece(evt) {
                 boardObjects[clickedPos - 9].jumpMinus9Over4(clickedPos);
                 boardObjects[clickedPos - 9].jumped = true;
                 checkValidMoves();
+                audioGus.play();
                 turnCounter++;
                 render();
                 // remove event
