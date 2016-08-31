@@ -28,3 +28,8 @@ function normalP1Edges(){
 }
 
 console.log(normalP1Edges());
+
+for(i = 4; i < 32; i++) {
+  if (!(i === 11) && !(i === 19) && !(i === 27)){}
+}
+
