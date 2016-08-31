@@ -95,8 +95,8 @@ hr {
   display: inline-flex;
   background-image: url("../assets/images/br-logo.png");
   background-size: 100%;
-  width:8vw;
-  height: 8vw;
+  width: 7.5vw;
+  height: 7.5vw;
   border: 1px solid white;
 }
 
@@ -104,15 +104,15 @@ hr {
   display: inline-flex;
   background-image: url("../assets/images/ba-logo.png");
   background-size: 100%;
-  width:8vw;
-  height: 8vw;
+  width: 7.5vw;
+  height: 7.5vw;
   border: 1px solid white;
 }
 
 .grid2 {
   background-color: gray;
-  width:8vw;
-  height: 8vw;
+  width: 7.5vw;
+  height: 7.5vw;
   border: 1px solid white;
   text-align: center;
   font-size: 60px;
@@ -123,10 +123,12 @@ hr {
   height: 100%;
 }
 
-footer {
-  display:flex-inline;
-  align-items: right;
+footer a {
+  display:flex;
+  justify-content: center;
+  color: white;
 }
+
 
 #resetBtn {
   -moz-box-shadow:inset 0px 1px 0px 0px #caefab;
