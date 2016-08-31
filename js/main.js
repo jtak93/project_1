@@ -190,9 +190,11 @@ var blankObject = new CheckerPiece(null, null, false, false);
 var $grid = $('.grid2');
 var $board = $('.board');
 
-// sounds for jumps
+// sounds for jumps and kinging
 var audioWalt = new Audio('assets/sounds/i-am-the-one-who-knocks.mp3');
 var audioGus = new Audio('assets/sounds/gus-quote.mp3');
+var audioHeisenberg = new Audio('assets/sounds/heisenberg.mp3');
+var audioDeadGus = new Audio ('assets/sounds/gus-dead.mp3');
 
 // Iterate through board array and append correct text or image to correct grid
 // also attaches object data to corresponding position
@@ -222,7 +224,7 @@ function render() {
 
 function changeTurnDisplay() {
   // player 1 turn
-  turnCounter%2 === 0 ? $('.turnDisplay').text('Player Turn: Walt') : $('.turnDisplay').text('Player Turn: Gus');
+  turnCounter%2 === 0 ? $('.turnDisplay').text('Player Turn: Walter White') : $('.turnDisplay').text('Player Turn: Gustavo Fring');
 }
 
 function createPieces() {
@@ -283,12 +285,14 @@ function checkKing() {
   for (i = 0; i < 4; i++) {
     if (!boardObjects[i].king && boardObjects[i].player === 1) {
       boardObjects[i].king = true;
+      audioHeisenberg.play();
     }
   }
   // check row 8 for player 2 pieces
   for (i = 28; i < 32; i++) {
     if (!boardObjects[i].king && boardObjects[i].player === 2) {
       boardObjects[i].king = true;
+      audioDeadGus.play();
     }
   }
 }
@@ -511,7 +515,7 @@ function checkValidMovesKing() {
             if (!boardObjects[i-4]['full']){
               obj.validMove = true;
             }
-            if(boardObjects[i-4]['player'] === 2 && !boardObjects[i-7]['full']) {
+            if(boardObjects[i-4]['player'] === 1 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
             }
           }
@@ -522,13 +526,13 @@ function checkValidMovesKing() {
             if (!boardObjects[i-5]['full']) {
               obj.validMove = true;
             }
-            if (boardObjects[i-5]['player'] === 2 && !boardObjects[i-9]['full']) {
+            if (boardObjects[i-5]['player'] === 1 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
             }
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
             }
-            if (boardObjects[i-4]['player'] === 2 && !boardObjects[i-7]['full']) {
+            if (boardObjects[i-4]['player'] === 1 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
             }
           }
@@ -539,13 +543,13 @@ function checkValidMovesKing() {
             if (!boardObjects[i-5]['full']) {
               obj.validMove = true;
             }
-            if (boardObjects[i-5]['player'] === 2 && !boardObjects[i-9]['full']) {
+            if (boardObjects[i-5]['player'] === 1 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
             }
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
             }
-            if (boardObjects[i-4]['player'] === 2 && !boardObjects[i-7]['full']) {
+            if (boardObjects[i-4]['player'] === 1 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
             }
           }
@@ -556,7 +560,7 @@ function checkValidMovesKing() {
             if (!boardObjects[i-5]['full']) {
               obj.validMove = true;
             }
-            if (boardObjects[i-5]['player'] === 2 && !boardObjects[i-9]['full']) {
+            if (boardObjects[i-5]['player'] === 1 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
             }
             if (!boardObjects[i-4]['full']) {
@@ -571,7 +575,7 @@ function checkValidMovesKing() {
             if (!boardObjects[i-3]['full']){
               obj.validMove = true;
             }
-            if (boardObjects[i-3]['player'] === 2 && !boardObjects[i-7]['full']) {
+            if (boardObjects[i-3]['player'] === 1 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
             }
             if (!boardObjects[i-4]['full']) {
@@ -586,13 +590,13 @@ function checkValidMovesKing() {
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
             }
-            if (boardObjects[i-4]['player'] === 2 && !boardObjects[i-9]['full']) {
+            if (boardObjects[i-4]['player'] === 1 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
             }
             if (!boardObjects[i-3]['full']) {
               obj.validMove = true;
             }
-            if (boardObjects[i-3]['player'] === 2 && !boardObjects[i-7]['full']) {
+            if (boardObjects[i-3]['player'] === 1 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
             }
           }
@@ -604,13 +608,13 @@ function checkValidMovesKing() {
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
             }
-            if (boardObjects[i-4]['player'] === 2 && !boardObjects[i-9]['full']) {
+            if (boardObjects[i-4]['player'] === 1 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
             }
             if (!boardObjects[i-3]['full']) {
               obj.validMove = true;
             }
-            if (boardObjects[i-3]['player'] === 2 && !boardObjects[i-7]['full']) {
+            if (boardObjects[i-3]['player'] === 1 && !boardObjects[i-7]['full']) {
               obj.validMove = true;
             }
           }
@@ -622,7 +626,7 @@ function checkValidMovesKing() {
             if (!boardObjects[i-4]['full']) {
               obj.validMove = true;
             }
-            if (boardObjects[i-4]['player'] === 2 && !boardObjects[i-9]['full']) {
+            if (boardObjects[i-4]['player'] === 1 && !boardObjects[i-9]['full']) {
               obj.validMove = true;
             }
           }
