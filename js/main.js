@@ -1790,6 +1790,281 @@ function movePiece(evt) {
             });
           }
     }
+    if ($(this).data().king) {
+      // player 2 backward move pos 4,11,12,19,20,27,28
+      if ($(this).data().position === 4  ||
+          $(this).data().position === 11 ||
+          $(this).data().position === 12 ||
+          $(this).data().position === 19 ||
+          $(this).data().position === 20 ||
+          $(this).data().position === 27 ||
+          $(this).data().position === 28) {
+              // stores clicked position value
+              var clickedPos = $(this).data().position;
+              if (!boardObjects[clickedPos - 4].full) {
+                // add event
+                $grid.eq(clickedPos - 4).on('click' , function() {
+                  boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
+                  turnCounter++;
+                  render();
+                  // remove event
+                  $grid.eq(clickedPos - 4).off('click' , function() {
+                    boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
+                  });
+                });
+              }
+      }
+
+      // player 2 backward move position 5,6,7,13,14,15,21,22,23,29,30,31
+      if ($(this).data().position === 5 ||
+          $(this).data().position === 6 ||
+          $(this).data().position === 7 ||
+          $(this).data().position === 13 ||
+          $(this).data().position === 14 ||
+          $(this).data().position === 15 ||
+          $(this).data().position === 21 ||
+          $(this).data().position === 22 ||
+          $(this).data().position === 23 ||
+          $(this).data().position === 29 ||
+          $(this).data().position === 30 ||
+          $(this).data().position === 31) {
+              // stores clicked position value
+              var clickedPos = $(this).data().position;
+              if (!boardObjects[clickedPos - 5].full) {
+                $grid.eq(clickedPos - 5).on('click' , function() {
+                  boardObjects[clickedPos - 5].movePMinusFive(clickedPos);
+                  turnCounter++;
+                  render();
+                  $grid.eq(clickedPos - 5).off('click' , function() {
+                    boardObjects[clickedPos - 5].movePMinusFive(clickedPos);
+                  });
+                });
+              }
+              if (!boardObjects[clickedPos - 4].full) {
+                $grid.eq(clickedPos - 4).on('click' , function() {
+                  boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
+                  turnCounter++;
+                  render();
+                  $grid.eq(clickedPos - 4).off('click' , function() {
+                    boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
+                  });
+                });
+              }
+      }
+
+      // player 2 backward move position 8,9,10,16,17,18,24,25,26
+      if ($(this).data().position === 8 ||
+          $(this).data().position === 9 ||
+          $(this).data().position === 10 ||
+          $(this).data().position === 16 ||
+          $(this).data().position === 17 ||
+          $(this).data().position === 18 ||
+          $(this).data().position === 24 ||
+          $(this).data().position === 25 ||
+          $(this).data().position === 26) {
+              var clickedPos = $(this).data().position;
+              if (!boardObjects[clickedPos - 3].full) {
+                // add click event
+                $grid.eq(clickedPos - 3).on('click' , function(evt) {
+                  boardObjects[clickedPos - 3].movePMinusThree(clickedPos);
+                  turnCounter++;
+                  render();
+                  // remove click event
+                  $grid.eq(clickedPos - 3).off('click' , function(evt) {
+                    boardObjects[clickedPos - 3].movePMinusThree(clickedPos);
+                  });
+                });
+              }
+              if (!boardObjects[clickedPos - 4].full) {
+                $grid.eq(clickedPos - 4).on('click' , function(evt) {
+                  boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
+                  turnCounter++;
+                  render();
+                  // remove click event
+                  $grid.eq(clickedPos - 4).off('click' , function(evt) {
+                    boardObjects[clickedPos - 4].movePMinusFour(clickedPos);
+                  });
+                });
+
+              }
+      }
+      // forward backward player 2 pos 12,20,28
+      if ($(this).data().position === 12 ||
+          $(this).data().position === 20 ||
+          $(this).data().position === 28) {
+            // stores clicked position value
+            var clickedPos = $(this).data().position;
+            if (!boardObjects[clickedPos - 7].full
+                && boardObjects[clickedPos - 4].player === 1) {
+              // add event
+              $grid.eq(clickedPos - 7).on('click' , function() {
+                boardObjects[clickedPos - 7].jumpMinus7Over4(clickedPos);
+                boardObjects[clickedPos - 7].jumped = true;
+                // if no valid moves after jump increment turn counter
+                checkValidMoves();
+                turnCounter++;
+                render();
+                // remove event
+                $grid.eq(clickedPos - 7).off('click' , function() {
+                  boardObjects[clickedPos - 7].jumpMinus7Over4(clickedPos);
+                });
+              });
+            }
+      }
+
+      // backward jumps player 2 pos 8,16,24
+      if ($(this).data().position === 8  ||
+          $(this).data().position === 16 ||
+          $(this).data().position === 24) {
+            // stores clicked position value
+            var clickedPos = $(this).data().position;
+            if (!boardObjects[clickedPos - 7].full
+                && boardObjects[clickedPos - 3].player === 1) {
+              // add event
+              $grid.eq(clickedPos - 7).on('click' , function() {
+                boardObjects[clickedPos - 7].jumpMinus7Over3(clickedPos);
+                boardObjects[clickedPos - 7].jumped = true;
+                checkValidMoves();
+                turnCounter++;
+                render();
+                // remove event
+                $grid.eq(clickedPos - 7).off('click' , function() {
+                  boardObjects[clickedPos - 7].jumpMinus7Over3(clickedPos);
+                });
+              });
+            }
+      }
+
+      // backward jumps player 2 pos 13,14,21,22,29,30
+      if ($(this).data().position === 13 ||
+          $(this).data().position === 14 ||
+          $(this).data().position === 21 ||
+          $(this).data().position === 22 ||
+          $(this).data().position === 29 ||
+          $(this).data().position === 30) {
+            // stores clicked position value
+            var clickedPos = $(this).data().position;
+            if (!boardObjects[clickedPos - 7].full
+                && boardObjects[clickedPos - 4].player === 1) {
+              // add event
+              $grid.eq(clickedPos - 7).on('click' , function() {
+                boardObjects[clickedPos - 7].jumpMinus7Over4(clickedPos);
+                boardObjects[clickedPos - 7].jumped = true;
+                checkValidMoves();
+                turnCounter++;
+                render();
+                // remove event
+                $grid.eq(clickedPos - 7).off('click' , function() {
+                  boardObjects[clickedPos - 7].jumpMinus7Over4(clickedPos);
+                });
+              });
+            }
+
+            if (!boardObjects[clickedPos - 9].full
+                && boardObjects[clickedPos - 5].player === 1) {
+              // add event
+              $grid.eq(clickedPos - 9).on('click' , function() {
+                boardObjects[clickedPos - 9].jumpMinus9Over5(clickedPos);
+                boardObjects[clickedPos - 9].jumped = true;
+                checkValidMoves();
+                turnCounter++;
+                render();
+                // remove event
+                $grid.eq(clickedPos - 9).off('click' , function() {
+                  boardObjects[clickedPos - 9].jumpMinus9Over5(clickedPos);
+                });
+              });
+            }
+      }
+
+      // backward jumps player 2 pos 9,10,17,18,25,26
+      if ($(this).data().position === 9  ||
+          $(this).data().position === 10 ||
+          $(this).data().position === 17 ||
+          $(this).data().position === 18 ||
+          $(this).data().position === 25 ||
+          $(this).data().position === 26) {
+            // stores clicked position value
+            var clickedPos = $(this).data().position;
+            if (!boardObjects[clickedPos - 7].full
+                && boardObjects[clickedPos - 3].player === 1) {
+              // add event
+              $grid.eq(clickedPos - 7).on('click' , function() {
+                boardObjects[clickedPos - 7].jumpMinus7Over3(clickedPos);
+                boardObjects[clickedPos - 7].jumped = true;
+                checkValidMoves();
+                turnCounter++;
+                render();
+                // remove event
+                $grid.eq(clickedPos - 7).off('click' , function() {
+                  boardObjects[clickedPos - 7].jumpMinus7Over3(clickedPos);
+                });
+              });
+            }
+
+            if (!boardObjects[clickedPos - 9].full
+                && boardObjects[clickedPos - 4].player === 2) {
+              // add event
+              $grid.eq(clickedPos - 9).on('click', function() {
+                boardObjects[clickedPos - 9].jumpMinus9Over4(clickedPos);
+                boardObjects[clickedPos - 9].jumped = true;
+                checkValidMoves();
+                turnCounter++;
+                render();
+                // remove event
+                $grid.eq(clickedPos - 9).off('click' , function() {
+                  boardObjects[clickedPos - 9].jumpMinus9Over4(clickedPos);
+                });
+              });
+            }
+      }
+
+      // backward jumps player 2 pos 15,23,31
+      if ($(this).data().position === 15 ||
+          $(this).data().position === 23 ||
+          $(this).data().position === 31) {
+            // stores clicked position value
+            var clickedPos = $(this).data().position;
+            if (!boardObjects[clickedPos - 9].full
+                && boardObjects[clickedPos - 5].player === 1) {
+              // add event
+              $grid.eq(clickedPos - 9).on('click' , function() {
+                boardObjects[clickedPos - 9].jumpMinus9Over5(clickedPos);
+                boardObjects[clickedPos - 9].jumped = true;
+                checkValidMoves();
+                turnCounter++;
+                render();
+                // remove event
+                $grid.eq(clickedPos - 9).off('click' , function() {
+                  boardObjects[clickedPos - 9].jumpMinus9Over5(clickedPos);
+                });
+              });
+            }
+      }
+
+      // backward jumps player 2 pos 11,19,27
+      if ($(this).data().position === 11 ||
+          $(this).data().position === 19 ||
+          $(this).data().position === 27) {
+            // stores clicked position value
+            var clickedPos = $(this).data().position;
+            if (!boardObjects[clickedPos - 9].full
+                && boardObjects[clickedPos - 4].player === 1) {
+              // add event
+              $grid.eq(clickedPos - 9).on('click' , function() {
+                boardObjects[clickedPos - 9].jumpMinus9Over4(clickedPos);
+                boardObjects[clickedPos - 9].jumped = true;
+                checkValidMoves();
+                turnCounter++;
+                render();
+                // remove event
+                $grid.eq(clickedPos - 9).off('click' , function() {
+                  boardObjects[clickedPos - 9].jumpMinus9Over4(clickedPos);
+                });
+              });
+            }
+      }
+    }
   }
 }
 
@@ -1834,5 +2109,4 @@ $resetBtn.on('click', resetGame);
 // for debugging ease get rid of later
 createPieces();
 render();
-console.log(boardObjects);
 
