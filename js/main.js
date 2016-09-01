@@ -2000,7 +2000,7 @@ function movePiece(evt) {
             }
 
             if (!boardObjects[clickedPos - 9].full
-                && boardObjects[clickedPos - 4].player === 2) {
+                && boardObjects[clickedPos - 4].player === 1) {
               // add event
               $grid.eq(clickedPos - 9).on('click', function() {
                 boardObjects[clickedPos - 9].jumpMinus9Over4(clickedPos);
