@@ -336,18 +336,9 @@ function checkValidMoves() {
   }
 }
 
+// TODO
 // need to fix logic if no move after
 // function checkJumped() {
-//   boardObjects.forEach(function(obj, i) {
-//           console.log(this);
-//     if (obj.jumped) {
-//       console.log(this);
-//       obj.validMove = true;
-//       return true;
-//     } else {
-//     return false;
-//     }
-//   });
 // }
 
 // checks if king pieces have valid move
