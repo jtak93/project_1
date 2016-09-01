@@ -182,6 +182,9 @@ class CheckerPiece {
 // decrement when piece is killed;
 var p1Pieces = 0;
 var p2Pieces = 0;
+// stores amt of player pieces for display
+var currentP1;
+var currentP2;
 var boardObjects = []; // Stores all board objects, see board array above
 var turnCounter = 0;
 var $clickedObjData; // stores clicked obj data
@@ -220,12 +223,18 @@ function render() {
   attachHoverEvent();
   changeTurnDisplay();
   checkWin();
+  changePieceDisplay();
   return boardObjects;
 }
 
 function changeTurnDisplay() {
-  // player 1 turn
+  // check player 1 turn
   turnCounter%2 === 0 ? $('.turnDisplay').text('Player Turn: Walter White') : $('.turnDisplay').text('Player Turn: Gustavo Fring');
+}
+
+function changePieceDisplay() {
+  $('#gusPieces').text('Gus Frings left: ' + currentP2);
+  $('#waltPieces').text('Walter Whites left: ' + currentP1);
 }
 
 function createPieces() {
@@ -248,28 +257,6 @@ function createPieces() {
     boardObjects.push(newPiece);
   }
 }
-
-// // MOSTLY EMPTY OBJECTS FOR DEBUGGING
-// function createPieces() {
-//   // Create player 2 objects
-//   for (i = 0; i < 4; i++) {
-//     var newPiece = new CheckerPiece(2, i, false, true);
-//     boardObjects.push(newPiece);
-//   }
-
-//   // Create blank objects to fill empty spots
-
-//   for (i = 4; i < 28; i++) {
-//     var newPiece = new CheckerPiece(null, i, false, false);
-//     boardObjects.push(newPiece);
-//   }
-
-//   // Create player 1 objects
-//   for (i = 28; i < 32; i++) {
-//     var newPiece = new CheckerPiece(1, i, false, true);
-//     boardObjects.push(newPiece);
-//   }
-// }
 
 // reset board state and render
 function resetGame() {
@@ -315,6 +302,8 @@ function checkWin() {
       p2Pieces++;
     }
   })
+  currentP1 = p1Pieces;
+  currentP2 = p2Pieces;
   if (p1Pieces === 0) {
     $('.p2Wins').removeAttr('id');
   }

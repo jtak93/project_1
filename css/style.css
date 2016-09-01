@@ -24,6 +24,12 @@ p {
   margin: 0 0 0 3vw;
 }
 
+.text p {
+  margin: 5vw auto;
+  font-size: 28px;
+  border: 3px solid green;
+}
+
 #waltWins, #gusWins {
   display:none;
 }
