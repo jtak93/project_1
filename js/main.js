@@ -177,6 +177,7 @@ class CheckerPiece {
   }
 }
 
+// Variable storage
 // stores number of player pieces;
 // decrement when piece is killed;
 var p1Pieces = 0;
@@ -336,19 +337,20 @@ function checkValidMoves() {
 }
 
 // need to fix logic if no move after
-function checkJumped() {
-  boardObjects.forEach(function(obj, i) {
-          console.log(this);
-    if (obj.jumped) {
-      console.log(this);
-      obj.validMove = true;
-      return true;
-    } else {
-    return false;
-    }
-  });
-}
+// function checkJumped() {
+//   boardObjects.forEach(function(obj, i) {
+//           console.log(this);
+//     if (obj.jumped) {
+//       console.log(this);
+//       obj.validMove = true;
+//       return true;
+//     } else {
+//     return false;
+//     }
+//   });
+// }
 
+// checks if king pieces have valid move
 function checkValidMovesKing() {
   boardObjects.forEach(function(obj, i) {
     if (turnCounter%2  === 0) {
@@ -948,9 +950,10 @@ function checkValidMovesP2() {
 }
 
 
+// checks for all valid moves based on position of clicked piece
+// and attaches event listeners to available spots
 // move function retrieves clicked element data then changes object data based on move
 function movePiece(evt) {
-
 
   if ($(this).data().player === 1 && $(this).data().validMove && boardObjects[parseInt(this.id)].clicked) {
     //check for move spots
